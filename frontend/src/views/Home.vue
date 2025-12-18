@@ -62,6 +62,22 @@
 <script>
 export default {
   name: 'Home',
+  mounted() {
+    window.addEventListener('scroll', this.handleParallax)
+  },
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.handleParallax)
+  },
+  methods: {
+    handleParallax() {
+      const hero = this.$el.querySelector('.hero')
+      if (hero) {
+        const scrolled = window.pageYOffset
+        // Move background at 0.5x speed (slower than scroll) for parallax effect
+        hero.style.backgroundPositionY = `${scrolled * 0.5}px`
+      }
+    }
+  }
 }
 </script>
 
@@ -80,9 +96,15 @@ export default {
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: linear-gradient(135deg, #2c5f2d 0%, #1a3a1b 100%);
+  background-image: url(static/images/landing/landing-hero-desktop.png);
   color: white;
   padding: 0 1rem;
+
+  /* Parallax background setup */
+  background-position: center 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* Ensures the image covers the whole container */
 }
 
 /* Mobile-specific background image */

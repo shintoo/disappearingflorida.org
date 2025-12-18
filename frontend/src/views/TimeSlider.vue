@@ -29,9 +29,24 @@
       <div class="image-container card">
         <div class="image-wrapper">
           <img
+            v-if="currentTimePoint.image_url_mobile"
+            :srcset="`
+              ${currentTimePoint.image_url_mobile} 640w,
+              ${currentTimePoint.image_url_tablet || currentTimePoint.image_url} 1024w,
+              ${currentTimePoint.image_url_desktop || currentTimePoint.image_url} 1920w
+            `"
+            :sizes="`(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1200px`"
             :src="currentTimePoint.image_url"
             :alt="`Satellite imagery from ${currentTimePoint.date}`"
             class="satellite-image"
+            loading="lazy"
+          />
+          <img
+            v-else
+            :src="currentTimePoint.image_url"
+            :alt="`Satellite imagery from ${currentTimePoint.date}`"
+            class="satellite-image"
+            loading="lazy"
           />
         </div>
 
@@ -184,9 +199,11 @@ export default {
 <style scoped>
 .subtitle {
   color: var(--color-text-light);
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
+  /* Mobile-first */
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
   text-align: center;
+  padding: 0 1rem;
 }
 
 .loading,
@@ -210,24 +227,26 @@ export default {
 .card {
   background: white;
   border-radius: 8px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  /* Mobile-first: compact padding */
+  padding: 1rem;
+  margin-bottom: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Location Info */
 .location-info h2 {
-  margin: 0 0 1rem 0;
+  margin: 0 0 0.75rem 0;
   color: var(--primary-green);
+  font-size: 1.5rem;
 }
 
 .location-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-bottom: 1rem;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
   color: var(--color-text-light);
-  font-size: 0.95rem;
+  font-size: 0.875rem;
 }
 
 .meta-item {
@@ -237,6 +256,7 @@ export default {
 .description {
   line-height: 1.6;
   color: var(--color-text);
+  font-size: 0.95rem;
 }
 
 /* Image Container */
@@ -252,19 +272,22 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Mobile: allow taller aspect ratio */
+  min-height: 200px;
 }
 
 .satellite-image {
   width: 100%;
   height: auto;
   display: block;
-  max-height: 600px;
+  /* Mobile: allow more vertical space */
+  max-height: 400px;
   object-fit: contain;
 }
 
 .image-info {
-  padding: 1rem 1.5rem;
-  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  padding: 0.75rem 1rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
   position: absolute;
   bottom: 0;
   left: 0;
@@ -273,25 +296,26 @@ export default {
 }
 
 .date-display {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: bold;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
 .description-display {
-  font-size: 1rem;
-  opacity: 0.9;
+  font-size: 0.875rem;
+  opacity: 0.95;
 }
 
 /* Timeline Controls */
 .timeline-controls {
-  padding: 2rem 1.5rem;
+  /* Mobile: compact padding */
+  padding: 1.5rem 1rem;
   position: relative;
 }
 
 .slider-container {
   position: relative;
-  padding-bottom: 3rem;
+  padding-bottom: 2.5rem;
 }
 
 .timeline-slider {
@@ -307,8 +331,9 @@ export default {
 .timeline-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
+  /* Larger for mobile touch */
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: var(--primary-green);
   cursor: pointer;
@@ -317,13 +342,10 @@ export default {
   z-index: 2;
 }
 
-.timeline-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-}
-
 .timeline-slider::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
+  /* Larger for mobile touch */
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: var(--primary-green);
   cursor: pointer;
@@ -333,17 +355,13 @@ export default {
   z-index: 2;
 }
 
-.timeline-slider::-moz-range-thumb:hover {
-  transform: scale(1.2);
-}
-
 /* Timeline Markers */
 .timeline-markers {
   position: absolute;
-  top: 38px;
-  left: 1.5rem;
-  right: 1.5rem;
-  height: 60px;
+  top: 32px;
+  left: 1rem;
+  right: 1rem;
+  height: 50px;
   pointer-events: none;
 }
 
@@ -353,31 +371,28 @@ export default {
   cursor: pointer;
   transition: all 0.2s;
   pointer-events: auto;
+  /* Mobile: larger touch target */
+  padding: 4px;
 }
 
 .marker-dot {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: #bbb;
-  margin: 0 auto 0.5rem;
+  margin: 0 auto 0.4rem;
   transition: all 0.2s;
 }
 
 .marker.active .marker-dot {
   background: var(--primary-green);
-  width: 16px;
-  height: 16px;
-  box-shadow: 0 0 0 4px rgba(44, 95, 45, 0.2);
-}
-
-.marker:hover .marker-dot {
-  background: var(--primary-green);
-  transform: scale(1.2);
+  width: 14px;
+  height: 14px;
+  box-shadow: 0 0 0 3px rgba(44, 95, 45, 0.2);
 }
 
 .marker-label {
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: bold;
   color: #666;
   text-align: center;
@@ -386,20 +401,22 @@ export default {
 
 .marker.active .marker-label {
   color: var(--primary-green);
-  font-size: 0.95rem;
+  font-size: 0.85rem;
 }
 
 /* Playback Controls */
 .playback-controls {
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 .control-btn {
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
+  /* Mobile: touch-friendly sizing */
+  padding: 0.875rem 1.25rem;
+  min-height: 44px;
+  font-size: 0.9rem;
   border: 2px solid var(--primary-green);
   background: white;
   color: var(--primary-green);
@@ -407,10 +424,12 @@ export default {
   cursor: pointer;
   transition: all 0.2s;
   font-weight: 600;
+  touch-action: manipulation;
 }
 
 .control-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
+  background: var(--primary-green);
+  color: white;
 }
 
 .control-btn:disabled {
@@ -418,24 +437,139 @@ export default {
   cursor: not-allowed;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Tablet and up */
+@media (min-width: 768px) {
+  .subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .location-info h2 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+
   .location-meta {
-    flex-direction: column;
-    gap: 0.5rem;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .description {
+    font-size: 1rem;
+  }
+
+  .image-wrapper {
+    min-height: 300px;
+  }
+
+  .satellite-image {
+    max-height: 500px;
+  }
+
+  .image-info {
+    padding: 1rem 1.5rem;
   }
 
   .date-display {
-    font-size: 1.2rem;
+    font-size: 1.35rem;
+    margin-bottom: 0.4rem;
   }
 
   .description-display {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+  }
+
+  .timeline-controls {
+    padding: 2rem 1.5rem;
+  }
+
+  .slider-container {
+    padding-bottom: 3rem;
+  }
+
+  .timeline-slider::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+  }
+
+  .timeline-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+  }
+
+  .timeline-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+  }
+
+  .timeline-slider::-moz-range-thumb:hover {
+    transform: scale(1.2);
+  }
+
+  .timeline-markers {
+    top: 38px;
+    left: 1.5rem;
+    right: 1.5rem;
+    height: 60px;
+  }
+
+  .marker-dot {
+    width: 12px;
+    height: 12px;
+    margin-bottom: 0.5rem;
+  }
+
+  .marker.active .marker-dot {
+    width: 16px;
+    height: 16px;
+    box-shadow: 0 0 0 4px rgba(44, 95, 45, 0.2);
+  }
+
+  .marker:hover .marker-dot {
+    background: var(--primary-green);
+    transform: scale(1.2);
+  }
+
+  .marker-label {
+    font-size: 0.85rem;
+  }
+
+  .marker.active .marker-label {
+    font-size: 0.95rem;
+  }
+
+  .playback-controls {
+    gap: 1rem;
   }
 
   .control-btn {
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .control-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+  }
+}
+
+/* Desktop and up */
+@media (min-width: 1024px) {
+  .satellite-image {
+    max-height: 600px;
+  }
+
+  .date-display {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .description-display {
+    font-size: 1rem;
   }
 }
 </style>

@@ -8,6 +8,10 @@ class TimePoint(BaseModel):
     year: int
     date: str
     image_url: str
+    # Responsive image variants
+    image_url_mobile: Optional[str] = None  # 640w
+    image_url_tablet: Optional[str] = None  # 1024w
+    image_url_desktop: Optional[str] = None  # 1920w
     description: Optional[str] = None
 
 

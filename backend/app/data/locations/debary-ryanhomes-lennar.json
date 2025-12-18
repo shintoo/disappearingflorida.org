@@ -13,30 +13,45 @@
       "year": 2019,
       "date": "2019-11-27",
       "image_url": "/static/images/timelines/debary-ryanhomes-lennar/2019-11-27-debary-ryanhomes-lennar.png",
+      "image_url_mobile": "/static/images/timelines/debary-ryanhomes-lennar/2019-11-27-debary-ryanhomes-lennar-mobile.webp",
+      "image_url_tablet": "/static/images/timelines/debary-ryanhomes-lennar/2019-11-27-debary-ryanhomes-lennar-tablet.webp",
+      "image_url_desktop": "/static/images/timelines/debary-ryanhomes-lennar/2019-11-27-debary-ryanhomes-lennar-desktop.webp",
       "description": "Before development - intact pine flatwoods and wetlands"
     },
     {
       "year": 2021,
       "date": "2021-05-08",
       "image_url": "/static/images/timelines/debary-ryanhomes-lennar/2021-05-08-debary-ryanhomes-lennar.png",
+      "image_url_mobile": "/static/images/timelines/debary-ryanhomes-lennar/2021-05-08-debary-ryanhomes-lennar-mobile.webp",
+      "image_url_tablet": "/static/images/timelines/debary-ryanhomes-lennar/2021-05-08-debary-ryanhomes-lennar-tablet.webp",
+      "image_url_desktop": "/static/images/timelines/debary-ryanhomes-lennar/2021-05-08-debary-ryanhomes-lennar-desktop.webp",
       "description": "Initial clearing and infrastructure development begins"
     },
     {
       "year": 2021,
       "date": "2021-12-13",
       "image_url": "/static/images/timelines/debary-ryanhomes-lennar/2021-12-13-debary-ryanhomes-lennar.png",
+      "image_url_mobile": "/static/images/timelines/debary-ryanhomes-lennar/2021-12-13-debary-ryanhomes-lennar-mobile.webp",
+      "image_url_tablet": "/static/images/timelines/debary-ryanhomes-lennar/2021-12-13-debary-ryanhomes-lennar-tablet.webp",
+      "image_url_desktop": "/static/images/timelines/debary-ryanhomes-lennar/2021-12-13-debary-ryanhomes-lennar-desktop.webp",
       "description": "Extensive land clearing and road construction underway"
     },
     {
       "year": 2023,
       "date": "2023-02-07",
       "image_url": "/static/images/timelines/debary-ryanhomes-lennar/2023-02-07-debary-ryanhomes-lennar.png",
+      "image_url_mobile": "/static/images/timelines/debary-ryanhomes-lennar/2023-02-07-debary-ryanhomes-lennar-mobile.webp",
+      "image_url_tablet": "/static/images/timelines/debary-ryanhomes-lennar/2023-02-07-debary-ryanhomes-lennar-tablet.webp",
+      "image_url_desktop": "/static/images/timelines/debary-ryanhomes-lennar/2023-02-07-debary-ryanhomes-lennar-desktop.webp",
       "description": "Housing construction progressing, most habitat cleared"
     },
     {
       "year": 2025,
       "date": "2025-08-05",
       "image_url": "/static/images/timelines/debary-ryanhomes-lennar/2025-08-05-debary-ryanhomes-lennar.png",
+      "image_url_mobile": "/static/images/timelines/debary-ryanhomes-lennar/2025-08-05-debary-ryanhomes-lennar-mobile.webp",
+      "image_url_tablet": "/static/images/timelines/debary-ryanhomes-lennar/2025-08-05-debary-ryanhomes-lennar-tablet.webp",
+      "image_url_desktop": "/static/images/timelines/debary-ryanhomes-lennar/2025-08-05-debary-ryanhomes-lennar-desktop.webp",
       "description": "Development largely complete - natural habitat replaced by suburban sprawl"
     }
   ],

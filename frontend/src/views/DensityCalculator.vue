@@ -111,8 +111,11 @@ export default {
 <style scoped>
 .subtitle {
   color: var(--color-text-light);
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
+  /* Mobile-first */
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0 1rem;
+  text-align: center;
 }
 
 .calculator {
@@ -121,33 +124,38 @@ export default {
 }
 
 .input-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .input-group label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
+  font-size: 0.95rem;
 }
 
 .input-group input,
 .input-group select {
   width: 100%;
-  padding: 0.75rem;
+  /* Mobile: larger touch target */
+  padding: 0.875rem;
+  min-height: 44px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 1rem;
+  /* Prevent iOS zoom */
+  font-size: 16px;
 }
 
 .results {
-  margin-top: 2rem;
-  padding-top: 2rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
   border-top: 2px solid var(--color-primary);
 }
 
 .result-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  /* Mobile: single column */
+  grid-template-columns: 1fr;
   gap: 1rem;
   margin-top: 1rem;
 }
@@ -161,14 +169,59 @@ export default {
 }
 
 .result-label {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--color-text-light);
   margin-bottom: 0.25rem;
 }
 
 .result-value {
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   font-weight: bold;
   color: var(--color-primary);
+}
+
+/* Tablet and up */
+@media (min-width: 768px) {
+  .subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .input-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .input-group label {
+    font-size: 1rem;
+  }
+
+  .input-group input,
+  .input-group select {
+    padding: 0.75rem;
+  }
+
+  .results {
+    margin-top: 2rem;
+    padding-top: 2rem;
+  }
+
+  .result-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .result-value {
+    font-size: 1.5rem;
+  }
+
+  .result-label {
+    font-size: 0.9rem;
+  }
+}
+
+/* Desktop - 4 columns if space allows */
+@media (min-width: 1024px) {
+  .result-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
 }
 </style>

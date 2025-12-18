@@ -33,32 +33,64 @@ export default {
 <style scoped>
 .subtitle {
   color: var(--color-text-light);
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
+  /* Mobile-first */
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  padding: 0 1rem;
 }
 
 .placeholder-text {
-  font-size: 1.1rem;
-  padding: 2rem;
+  font-size: 1rem;
+  padding: 1.5rem;
   background-color: #f0f8ff;
   border-left: 4px solid var(--color-primary);
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.feature-list h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .feature-list ul {
-  margin-left: 2rem;
+  margin-left: 1.5rem;
   margin-top: 1rem;
-  columns: 2;
+  /* Mobile: single column */
+  columns: 1;
 }
 
 .feature-list li {
   margin-bottom: 0.5rem;
   color: var(--color-text-light);
+  font-size: 0.95rem;
 }
 
-@media (max-width: 600px) {
+/* Tablet and up */
+@media (min-width: 768px) {
+  .subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .placeholder-text {
+    font-size: 1.1rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .feature-list h3 {
+    font-size: 1.5rem;
+  }
+
   .feature-list ul {
-    columns: 1;
+    columns: 2;
+    margin-left: 2rem;
+  }
+
+  .feature-list li {
+    font-size: 1rem;
   }
 }
 </style>

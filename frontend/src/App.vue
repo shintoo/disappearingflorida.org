@@ -20,10 +20,10 @@
 
         <!-- Navigation menu with mobile toggle -->
         <ul class="nav-menu" :class="{ 'is-open': mobileMenuOpen }">
-          <li><router-link to="/" @click="closeMobileMenu">Home</router-link></li>
-          <li><router-link to="/time-slider" @click="closeMobileMenu">Time Slider</router-link></li>
-          <li><router-link to="/density-calculator" @click="closeMobileMenu">Density Calculator</router-link></li>
-          <li><router-link to="/species" @click="closeMobileMenu">Species</router-link></li>
+          <li><router-link to="/satellite-imagery" @click="closeMobileMenu">Satellite Imagery</router-link></li>
+          <li><router-link to="/density-calculator" @click="closeMobileMenu">Build Better</router-link></li>
+          <li><router-link to="/species" @click="closeMobileMenu">Impact</router-link></li>
+          <li><router-link to="/about" @click="closeMobileMenu">About</router-link></li>
         </ul>
       </div>
     </nav>
@@ -98,7 +98,7 @@ body {
 
 .main-nav {
   background-color: var(--color-primary);
-  color: white;
+  color: white !important;
   padding: 1rem 0;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   position: absolute;
@@ -106,7 +106,8 @@ body {
   left: 0;
   right: 0;
   z-index: 1000;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease,
+              opacity 0.3s ease;
 }
 
 .main-nav.is-transparent {
@@ -180,7 +181,7 @@ body {
   top: 100%;
   left: 0;
   right: 0;
-  background-color: #2c5f2d;
+  background-color: var(--color-primary);
   flex-direction: column;
   padding: 0;
   gap: 0;
@@ -189,11 +190,6 @@ body {
   opacity: 0;
   transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.4s ease, background-color 0.3s ease;
   z-index: 100;
-}
-
-.main-nav.is-transparent .nav-menu {
-  background-color: rgba(44, 95, 45, 0.95);
-  backdrop-filter: blur(10px);
 }
 
 .nav-menu.is-open {
@@ -235,7 +231,7 @@ body {
 .nav-menu a {
   color: white;
   text-decoration: none;
-  transition: opacity 0.2s, background-color 0.2s;
+  transition: opacity 0.2s;
   display: block;
   padding: 1rem 1.5rem;
   min-height: 44px;
@@ -243,7 +239,7 @@ body {
 
 .nav-menu a:hover,
 .nav-menu a.router-link-active {
-  background-color: rgba(255, 255, 255, 0.1);
+  opacity: 1.0;
 }
 
 /* Tablet breakpoint - show horizontal menu */
@@ -261,24 +257,27 @@ body {
     flex-direction: row;
     position: static;
     box-shadow: none;
-    gap: 1.5rem;
+    gap: 5rem;
     padding: 0;
+    opacity: 1.0;
+    background: transparent;
+    overflow: unset;
   }
 
   .nav-menu li {
     width: auto;
+    opacity: 1.0;
   }
 
   .nav-menu a {
     padding: 0.5rem 0;
     min-height: auto;
+    opacity: 0.8;
   }
 
   .nav-menu a:hover,
   .nav-menu a.router-link-active {
-    opacity: 0.8;
-    text-decoration: underline;
-    background-color: transparent;
+    opacity: 1.0;
   }
 }
 

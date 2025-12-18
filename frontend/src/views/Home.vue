@@ -2,12 +2,12 @@
   <div class="home">
     <section class="hero">
       <div class="hero-content">
-        <h1>Florida's Disappearing Landscapes</h1>
+        <h1>Disappearing Florida</h1>
         <p class="hero-subtitle">
-          Suburban sprawl
+          Irresponsible development threatens to eliminate Florida's beautiful natural landscapes
         </p>
         <div class="hero-actions">
-          <router-link to="/time-slider" class="btn">See Timelapse</router-link>
+          <router-link to="/satellite-imagery" class="btn btn-secondary">See Timelapse</router-link>
         </div>
       </div>
       <div class="scroll-indicator">
@@ -17,31 +17,13 @@
     </section>
 
     <section class="content-section">
-      <div class="intro">
-        <div class="card">
-          <h2>The Problem</h2>
-          <p>
-            Florida's unique ecosystems—home to endangered panthers, manatees, and scrub-jays—are
-            disappearing under suburban sprawl. But this isn't inevitable.
-          </p>
-        </div>
-
-        <div class="card">
-          <h2>The Solution</h2>
-          <p>
-            The same population can be housed with dramatically less habitat destruction through
-            higher-density, walkable development. Better neighborhoods, preserved nature.
-          </p>
-        </div>
-      </div>
-
       <div class="tools-preview">
         <h2 class="text-center mb-2">Interactive Tools</h2>
         <div class="tools-grid">
           <div class="tool-card">
             <h3>Satellite Timelapse</h3>
             <p>See decades of habitat transformation in Florida's most affected areas</p>
-            <router-link to="/time-slider" class="btn">Explore</router-link>
+            <router-link to="/satellite-imagery" class="btn">Explore</router-link>
           </div>
           <div class="tool-card">
             <h3>Density Calculator</h3>

@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import TimeSlider from '../views/TimeSlider.vue'
+import SatelliteImagery from '../views/SatelliteImagery.vue'
 import DensityCalculator from '../views/DensityCalculator.vue'
 import SpeciesList from '../views/SpeciesList.vue'
+import About from '../views/About.vue'
 
 const routes = [
   {
@@ -11,9 +12,9 @@ const routes = [
     component: Home,
   },
   {
-    path: '/time-slider',
-    name: 'TimeSlider',
-    component: TimeSlider,
+    path: '/satellite-imagery',
+    name: 'SatelliteImagery',
+    component: SatelliteImagery,
   },
   {
     path: '/density-calculator',
@@ -24,6 +25,11 @@ const routes = [
     path: '/species',
     name: 'SpeciesList',
     component: SpeciesList,
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: About,
   },
 ]
 

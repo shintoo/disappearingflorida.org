@@ -1,8 +1,5 @@
 <template>
-  <div class="time-slider-page">
-    <h1>Satellite Viewer</h1>
-    <p class="subtitle">See Florida's habitat transformation over time</p>
-
+  <div class="satellite-imagery-page">
     <div v-if="loading" class="loading">
       Loading location data...
     </div>
@@ -109,7 +106,7 @@
 import axios from 'axios';
 
 export default {
-  name: 'TimeSlider',
+  name: 'SatelliteImagery',
   data() {
     return {
       location: null,
@@ -229,15 +226,6 @@ export default {
   margin: 0 auto;
 }
 
-.card {
-  background: white;
-  border-radius: 8px;
-  /* Mobile-first: compact padding */
-  padding: 1rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 /* Location Info */
 .location-info h2 {
   margin: 0 0 0.75rem 0;
@@ -333,31 +321,31 @@ export default {
   appearance: none;
 }
 
-.timeline-slider::-webkit-slider-thumb {
+input[type="range"] {
+  /* Required to allow styling the thumb in Webkit/Blink browsers */
   -webkit-appearance: none;
+  /* Standard property for styling in compliant browsers */
   appearance: none;
-  /* Larger for mobile touch */
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  cursor: pointer;
-  transition: transform 0.2s;
-  position: relative;
-  z-index: 2;
+  /* Optional: removes the focus outline for aesthetic purposes */
+  outline: none;
 }
 
-.timeline-slider::-moz-range-thumb {
-  /* Larger for mobile touch */
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  cursor: pointer;
+/* Chrome, Safari, Edge, Opera (Webkit/Blink browsers) */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  /* Set width and height to 0 or a very small value to hide it */
+  width: 0;
+  height: 0;
+  /* Alternatively, you can use display: none, but this can cause issues in some contexts */
+}
+
+/* Firefox */
+input[type="range"]::-moz-range-thumb {
+  /* Set width and height to 0 or a very small value to hide it */
+  width: 0;
+  height: 0;
   border: none;
-  transition: transform 0.2s;
-  position: relative;
-  z-index: 2;
+  /* Removes the default grey border in Firefox */
 }
 
 /* Timeline Markers */

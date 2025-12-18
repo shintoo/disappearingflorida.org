@@ -10,7 +10,7 @@
 
 :root {
   --color-primary: #556041;
-  --color-primary-dark: #556041;
+  --color-primary-dark: #3d452e;
   --color-accent: #ff6b35;
   --color-text: #333;
   --color-text-light: #666;
@@ -58,8 +58,9 @@ h1, h2 {
 
 /* Page layouts - account for fixed nav */
 .density-calculator-page,
-.time-slider-page,
-.species-page {
+.satellite-imagery-page,
+.species-page,
+.about-page {
   padding-top: 5rem; /* Account for fixed navbar */
   max-width: 1200px;
   margin: 0 auto;
@@ -70,7 +71,7 @@ h1, h2 {
 
 @media (min-width: 768px) {
   .density-calculator-page,
-  .time-slider-page,
+  .satellite-imagery-page,
   .species-page {
     padding-top: 6rem;
   }
@@ -99,26 +100,31 @@ h1, h2 {
   /* Mobile: larger touch target */
   padding: 0.875rem 1.5rem;
   min-height: var(--touch-target-min);
-  background-color: var(--color-primary);
-  color: white;
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: 15px;
   border: none;
   cursor: pointer;
   transition: background-color 0.2s;
   font-size: 1rem;
   touch-action: manipulation;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
 }
 
 .btn:hover {
-  background-color: var(--color-primary-dark);
+
 }
 
 .btn-secondary {
-  background-color: var(--color-accent);
+  color: white;
+  border-color: white;
 }
 
 .card {
+  padding: 1rem;
+}
+
+.card2 {
   background: white;
   border-radius: 8px;
   padding: 1.5rem;

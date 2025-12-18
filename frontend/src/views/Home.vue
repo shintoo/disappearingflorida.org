@@ -2,9 +2,9 @@
   <div class="home">
     <section class="hero">
       <div class="hero-content">
-        <h1>Florida's Disappearing Habitats</h1>
+        <h1>Florida's Disappearing Landscapes</h1>
         <p class="hero-subtitle">
-          Visualizing the impact of suburban sprawl on Florida's unique ecosystems
+          Suburban sprawl
         </p>
         <div class="hero-actions">
           <router-link to="/time-slider" class="btn">See Timelapse</router-link>
@@ -39,7 +39,7 @@
         <h2 class="text-center mb-2">Interactive Tools</h2>
         <div class="tools-grid">
           <div class="tool-card">
-            <h3>Satellite Time-Slider</h3>
+            <h3>Satellite Timelapse</h3>
             <p>See decades of habitat transformation in Florida's most affected areas</p>
             <router-link to="/time-slider" class="btn">Explore</router-link>
           </div>
@@ -229,7 +229,7 @@ export default {
   }
 
   .hero h1 {
-    font-size: 2.25rem;
+    font-size: 2.75rem;
     margin-bottom: 1rem;
   }
 
@@ -254,7 +254,7 @@ export default {
   }
 
   .hero h1 {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
   }
 
   .hero-subtitle {

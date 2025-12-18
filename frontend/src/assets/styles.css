@@ -1,8 +1,16 @@
 /* Global styles for Disappearing Florida */
 
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/fonts/CormorantGaramond-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --color-primary: #2c5f2d;
-  --color-primary-dark: #1a3a1b;
+  --color-primary: #556041;
+  --color-primary-dark: #556041;
   --color-accent: #ff6b35;
   --color-text: #333;
   --color-text-light: #666;
@@ -40,6 +48,12 @@
   :root {
     --font-size-h1: 3rem;
   }
+}
+
+/* Typography */
+h1, h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
 }
 
 /* Page layouts - account for fixed nav */

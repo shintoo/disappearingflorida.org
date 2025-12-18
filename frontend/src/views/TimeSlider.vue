@@ -90,7 +90,7 @@
             ← Previous
           </button>
           <button @click="togglePlayback" class="control-btn play-btn">
-            {{ isPlaying ? '⏸ Pause' : '▶ Play' }}
+            {{ isPlaying ? '⏸ Pause' : (currentIndex == lastIndex ? '⟳ Replay' : '▶ Play' )}}
           </button>
           <button
             @click="nextFrame"
@@ -124,14 +124,17 @@ export default {
     currentTimePoint() {
       return this.location?.time_points[this.currentIndex] || {};
     },
+    lastIndex() {
+      return this.location.time_points.length - 1
+    }
   },
   methods: {
     async fetchLocation() {
       try {
         this.loading = true;
         this.error = null;
-        // For MVP, we're hardcoding the DeBary location
-        const response = await axios.get('/api/locations/debary-ryanhomes-lennar');
+        // For MVP, we're hardcoding the DeBary/Mt Dora location
+        const response = await axios.get('/api/locations/mtdora');
         this.location = response.data;
       } catch (err) {
         this.error = 'Failed to load location data. Please try again later.';
@@ -164,6 +167,9 @@ export default {
     togglePlayback() {
       if (this.isPlaying) {
         this.stopPlayback();
+      } else if (this.currentIndex == this.location.time_points.length - 1) {
+        this.currentIndex = 0;
+        this.startPlayback();
       } else {
         this.startPlayback();
       }
@@ -174,10 +180,9 @@ export default {
         if (this.currentIndex < this.location.time_points.length - 1) {
           this.nextFrame();
         } else {
-          // Loop back to start
-          this.currentIndex = 0;
+          this.stopPlayback();
         }
-      }, 2000); // 2 seconds per frame
+      }, 500);
     },
     stopPlayback() {
       this.isPlaying = false;
@@ -236,7 +241,7 @@ export default {
 /* Location Info */
 .location-info h2 {
   margin: 0 0 0.75rem 0;
-  color: var(--primary-green);
+  color: var(--color-primary);
   font-size: 1.5rem;
 }
 
@@ -262,7 +267,7 @@ export default {
 /* Image Container */
 .image-container {
   position: relative;
-  padding: 0;
+  padding: 0 !important;
   overflow: hidden;
 }
 
@@ -335,7 +340,7 @@ export default {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: var(--primary-green);
+  background: var(--color-primary);
   cursor: pointer;
   transition: transform 0.2s;
   position: relative;
@@ -347,7 +352,7 @@ export default {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: var(--primary-green);
+  background: var(--color-primary);
   cursor: pointer;
   border: none;
   transition: transform 0.2s;
@@ -385,7 +390,7 @@ export default {
 }
 
 .marker.active .marker-dot {
-  background: var(--primary-green);
+  background: var(--color-primary);
   width: 14px;
   height: 14px;
   box-shadow: 0 0 0 3px rgba(44, 95, 45, 0.2);
@@ -400,7 +405,7 @@ export default {
 }
 
 .marker.active .marker-label {
-  color: var(--primary-green);
+  color: var(--color-primary);
   font-size: 0.85rem;
 }
 
@@ -417,9 +422,9 @@ export default {
   padding: 0.875rem 1.25rem;
   min-height: 44px;
   font-size: 0.9rem;
-  border: 2px solid var(--primary-green);
+  border: 2px solid var(--color-primary);
   background: white;
-  color: var(--primary-green);
+  color: var(--color-primary);
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s;
@@ -428,7 +433,7 @@ export default {
 }
 
 .control-btn:hover:not(:disabled) {
-  background: var(--primary-green);
+  background: var(--color-primary);
   color: white;
 }
 
@@ -492,7 +497,7 @@ export default {
   .slider-container {
     padding-bottom: 3rem;
   }
-
+/*
   .timeline-slider::-webkit-slider-thumb {
     width: 20px;
     height: 20px;
@@ -510,7 +515,7 @@ export default {
   .timeline-slider::-moz-range-thumb:hover {
     transform: scale(1.2);
   }
-
+*/
   .timeline-markers {
     top: 38px;
     left: 1.5rem;
@@ -531,7 +536,7 @@ export default {
   }
 
   .marker:hover .marker-dot {
-    background: var(--primary-green);
+    background: var(--color-primary);
     transform: scale(1.2);
   }
 

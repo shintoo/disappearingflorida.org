@@ -97,11 +97,11 @@ body {
 }
 
 .main-nav {
-  background-color: #2c5f2d;
+  background-color: var(--color-primary);
   color: white;
   padding: 1rem 0;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -115,7 +115,7 @@ body {
 }
 
 .main-nav.is-opaque {
-  background-color: #2c5f2d;
+  background-color: var(--color-primary);
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
@@ -185,7 +185,6 @@ body {
   padding: 0;
   gap: 0;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  max-height: 0;
   overflow: hidden;
   opacity: 0;
   transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.4s ease, background-color 0.3s ease;
@@ -250,7 +249,7 @@ body {
 /* Tablet breakpoint - show horizontal menu */
 @media (min-width: 768px) {
   .site-title a {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
   }
 
   .hamburger-btn {
@@ -288,7 +287,7 @@ body {
 }
 
 .site-footer {
-  background-color: #1a3a1b;
+  background-color: var(--color-primary-dark);
   color: white;
   text-align: center;
   padding: 2rem;

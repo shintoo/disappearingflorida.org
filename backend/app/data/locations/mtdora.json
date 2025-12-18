@@ -1,0 +1,105 @@
+{
+  "id": "mtdora",
+  "name": "Mt Dora",
+  "county": "",
+  "ecosystem_type": "",
+  "latitude": 0.0,
+  "longitude": 0.0,
+  "thumbnail_url": "/static/images/timelines/mt-dora-se/2004-12-31-mtdora.png",
+  "description_short": "Development site in Florida showing habitat transformation.",
+  "description_full": "This area shows the transformation of natural ecosystems into suburban development. Images span from 2004-12-31 to 2025-05-17.",
+  "time_points": [
+    {
+      "year": 2004,
+      "date": "2004-12-31",
+      "image_url": "/static/images/timelines/mt-dora-se/2004-12-31-mtdora.png",
+      "image_url_mobile": "/static/images/timelines/mt-dora-se/2004-12-31-mtdora-mobile.webp",
+      "image_url_tablet": "/static/images/timelines/mt-dora-se/2004-12-31-mtdora-tablet.webp",
+      "image_url_desktop": "/static/images/timelines/mt-dora-se/2004-12-31-mtdora-desktop.webp",
+      "description": "Before development - intact natural habitat"
+    },
+    {
+      "year": 2005,
+      "date": "2005-01-19",
+      "image_url": "/static/images/timelines/mt-dora-se/2005-01-19-mtdora.png",
+      "image_url_mobile": "/static/images/timelines/mt-dora-se/2005-01-19-mtdora-mobile.webp",
+      "image_url_tablet": "/static/images/timelines/mt-dora-se/2005-01-19-mtdora-tablet.webp",
+      "image_url_desktop": "/static/images/timelines/mt-dora-se/2005-01-19-mtdora-desktop.webp",
+      "description": "Development in progress - 2005-01-19"
+    },
+    {
+      "year": 2005,
+      "date": "2005-11-23",
+      "image_url": "/static/images/timelines/mt-dora-se/2005-11-23-mtdora.png",
+      "image_url_mobile": "/static/images/timelines/mt-dora-se/2005-11-23-mtdora-mobile.webp",
+      "image_url_tablet": "/static/images/timelines/mt-dora-se/2005-11-23-mtdora-tablet.webp",
+      "image_url_desktop": "/static/images/timelines/mt-dora-se/2005-11-23-mtdora-desktop.webp",
+      "description": "Development in progress - 2005-11-23"
+    },
+    {
+      "year": 2011,
+      "date": "2011-11-13",
+      "image_url": "/static/images/timelines/mt-dora-se/2011-11-13-mtdora.png",
+      "image_url_mobile": "/static/images/timelines/mt-dora-se/2011-11-13-mtdora-mobile.webp",
+      "image_url_tablet": "/static/images/timelines/mt-dora-se/2011-11-13-mtdora-tablet.webp",
+      "image_url_desktop": "/static/images/timelines/mt-dora-se/2011-11-13-mtdora-desktop.webp",
+      "description": "Development in progress - 2011-11-13"
+    },
+    {
+      "year": 2018,
+      "date": "2018-12-18",
+      "image_url": "/static/images/timelines/mt-dora-se/2018-12-18-mtdora.png",
+      "image_url_mobile": "/static/images/timelines/mt-dora-se/2018-12-18-mtdora-mobile.webp",
+      "image_url_tablet": "/static/images/timelines/mt-dora-se/2018-12-18-mtdora-tablet.webp",
+      "image_url_desktop": "/static/images/timelines/mt-dora-se/2018-12-18-mtdora-desktop.webp",
+      "description": "Development in progress - 2018-12-18"
+    },
+    {
+      "year": 2019,
+      "date": "2019-11-27",
+      "image_url": "/static/images/timelines/mt-dora-se/2019-11-27-mtdora.png",
+      "image_url_mobile": "/static/images/timelines/mt-dora-se/2019-11-27-mtdora-mobile.webp",
+      "image_url_tablet": "/static/images/timelines/mt-dora-se/2019-11-27-mtdora-tablet.webp",
+      "image_url_desktop": "/static/images/timelines/mt-dora-se/2019-11-27-mtdora-desktop.webp",
+      "description": "Development in progress - 2019-11-27"
+    },
+    {
+      "year": 2021,
+      "date": "2021-01-10",
+      "image_url": "/static/images/timelines/mt-dora-se/2021-01-10-mtdora.png",
+      "image_url_mobile": "/static/images/timelines/mt-dora-se/2021-01-10-mtdora-mobile.webp",
+      "image_url_tablet": "/static/images/timelines/mt-dora-se/2021-01-10-mtdora-tablet.webp",
+      "image_url_desktop": "/static/images/timelines/mt-dora-se/2021-01-10-mtdora-desktop.webp",
+      "description": "Development in progress - 2021-01-10"
+    },
+    {
+      "year": 2022,
+      "date": "2022-04-16",
+      "image_url": "/static/images/timelines/mt-dora-se/2022-04-16-mtdora.png",
+      "image_url_mobile": "/static/images/timelines/mt-dora-se/2022-04-16-mtdora-mobile.webp",
+      "image_url_tablet": "/static/images/timelines/mt-dora-se/2022-04-16-mtdora-tablet.webp",
+      "image_url_desktop": "/static/images/timelines/mt-dora-se/2022-04-16-mtdora-desktop.webp",
+      "description": "Development in progress - 2022-04-16"
+    },
+    {
+      "year": 2024,
+      "date": "2024-04-17",
+      "image_url": "/static/images/timelines/mt-dora-se/2024-04-17-mtdora.png",
+      "image_url_mobile": "/static/images/timelines/mt-dora-se/2024-04-17-mtdora-mobile.webp",
+      "image_url_tablet": "/static/images/timelines/mt-dora-se/2024-04-17-mtdora-tablet.webp",
+      "image_url_desktop": "/static/images/timelines/mt-dora-se/2024-04-17-mtdora-desktop.webp",
+      "description": "Development in progress - 2024-04-17"
+    },
+    {
+      "year": 2025,
+      "date": "2025-05-17",
+      "image_url": "/static/images/timelines/mt-dora-se/2025-05-17-mtdora.png",
+      "image_url_mobile": "/static/images/timelines/mt-dora-se/2025-05-17-mtdora-mobile.webp",
+      "image_url_tablet": "/static/images/timelines/mt-dora-se/2025-05-17-mtdora-tablet.webp",
+      "image_url_desktop": "/static/images/timelines/mt-dora-se/2025-05-17-mtdora-desktop.webp",
+      "description": "Current state - development complete"
+    }
+  ],
+  "affected_species_ids": [],
+  "habitat_loss_acres": 0
+}

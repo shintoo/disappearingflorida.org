@@ -22,7 +22,7 @@
         <p class="description">{{ location.description_full }}</p>
       </div>
 
-      <!-- Image Display -->
+      <!-- Image Display with Timeline Controls Overlay -->
       <div class="image-container card">
         <div class="image-wrapper">
           <img
@@ -47,55 +47,101 @@
           />
         </div>
 
-        <!-- Image Info Overlay -->
-        <div class="image-info">
+        <!-- Top Overlay: Date and Description -->
+        <div class="image-info top-overlay">
           <div class="date-display">{{ formatDate(currentTimePoint.date) }}</div>
           <div class="description-display">{{ currentTimePoint.description }}</div>
         </div>
-      </div>
 
-      <!-- Timeline Slider -->
-      <div class="timeline-controls card">
-        <div class="slider-container">
-          <input
-            type="range"
-            v-model.number="currentIndex"
-            :min="0"
-            :max="location.time_points.length - 1"
-            class="timeline-slider"
-          />
-        </div>
-
-        <!-- Timeline Markers -->
-        <div class="timeline-markers">
+        <!-- Bottom Overlay: Timeline Controls -->
+        <div
+          class="timeline-controls-overlay"
+          @mousemove="handleMouseMove"
+          @mouseleave="handleMouseLeave"
+        >
+          <!-- Progress Bar Container -->
           <div
-            v-for="(point, index) in location.time_points"
-            :key="index"
-            class="marker"
-            :class="{ active: index === currentIndex }"
-            :style="{ left: `${(index / (location.time_points.length - 1)) * 100}%` }"
-            @click="currentIndex = index"
+            class="progress-bar-container"
+            :class="{ 'controls-hidden': controlsHidden }"
+            @mouseenter="showYearLabels = true"
+            @mouseleave="showYearLabels = false"
           >
-            <div class="marker-dot"></div>
-            <div class="marker-label">{{ point.year }}</div>
-          </div>
-        </div>
+            <!-- Progress Bar Background -->
+            <div class="progress-bar-background">
+              <!-- Filled Progress -->
+              <div
+                class="progress-bar-filled"
+                :style="{ width: `${progressPercentage}%` }"
+              ></div>
 
-        <!-- Playback Controls -->
-        <div class="playback-controls">
-          <button @click="previousFrame" :disabled="currentIndex === 0" class="control-btn">
-            ← Previous
-          </button>
-          <button @click="togglePlayback" class="control-btn play-btn">
-            {{ isPlaying ? '⏸ Pause' : (currentIndex == lastIndex ? '⟳ Replay' : '▶ Play' )}}
-          </button>
-          <button
-            @click="nextFrame"
-            :disabled="currentIndex === location.time_points.length - 1"
-            class="control-btn"
+              <!-- Interactive Slider Overlay -->
+              <input
+                type="range"
+                v-model.number="currentIndex"
+                :min="0"
+                :max="location.time_points.length - 1"
+                class="progress-slider"
+              />
+
+              <!-- Year Markers (only visible on hover) -->
+              <div class="year-markers" :class="{ 'visible': showYearLabels }">
+                <div
+                  v-for="(point, index) in location.time_points"
+                  :key="index"
+                  class="year-marker"
+                  :style="{ left: `${(index / (location.time_points.length - 1)) * 100}%` }"
+                  @click="currentIndex = index"
+                >
+                  <div class="year-label">{{ point.year }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Playback Controls (icon-only, bottom left) -->
+          <div
+            class="playback-controls"
+            :class="{ 'controls-hidden': controlsHidden }"
           >
-            Next →
-          </button>
+            <button
+              @click="previousFrame"
+              :disabled="currentIndex === 0"
+              class="control-icon-btn"
+              aria-label="Previous"
+              title="Previous"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+              </svg>
+            </button>
+            <button
+              @click="togglePlayback"
+              class="control-icon-btn play-btn"
+              :aria-label="isPlaying ? 'Pause' : 'Play'"
+              :title="isPlaying ? 'Pause' : 'Play'"
+            >
+              <svg v-if="!isPlaying && currentIndex !== lastIndex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              <svg v-else-if="!isPlaying && currentIndex === lastIndex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+              </svg>
+              <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+              </svg>
+            </button>
+            <button
+              @click="nextFrame"
+              :disabled="currentIndex === location.time_points.length - 1"
+              class="control-icon-btn"
+              aria-label="Next"
+              title="Next"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -115,6 +161,9 @@ export default {
       currentIndex: 0,
       isPlaying: false,
       playbackInterval: null,
+      controlsHidden: false,
+      hideControlsTimeout: null,
+      showYearLabels: false,
     };
   },
   computed: {
@@ -123,6 +172,10 @@ export default {
     },
     lastIndex() {
       return this.location.time_points.length - 1
+    },
+    progressPercentage() {
+      if (!this.location || this.location.time_points.length <= 1) return 0;
+      return (this.currentIndex / (this.location.time_points.length - 1)) * 100;
     }
   },
   methods: {
@@ -180,12 +233,50 @@ export default {
           this.stopPlayback();
         }
       }, 500);
+      // Start auto-hide timer when playback starts
+      this.startHideControlsTimer();
     },
     stopPlayback() {
       this.isPlaying = false;
       if (this.playbackInterval) {
         clearInterval(this.playbackInterval);
         this.playbackInterval = null;
+      }
+      // Show controls when playback stops
+      this.showControls();
+    },
+    handleMouseMove() {
+      // Show controls on mouse move
+      this.showControls();
+      // Restart the hide timer if playing
+      if (this.isPlaying) {
+        this.startHideControlsTimer();
+      }
+    },
+    handleMouseLeave() {
+      // Hide controls immediately when mouse leaves if playing
+      if (this.isPlaying) {
+        this.controlsHidden = true;
+        this.clearHideControlsTimer();
+      }
+    },
+    showControls() {
+      this.controlsHidden = false;
+      this.clearHideControlsTimer();
+    },
+    startHideControlsTimer() {
+      this.clearHideControlsTimer();
+      // Hide controls after 2 seconds of inactivity
+      this.hideControlsTimeout = setTimeout(() => {
+        if (this.isPlaying) {
+          this.controlsHidden = true;
+        }
+      }, 2000);
+    },
+    clearHideControlsTimer() {
+      if (this.hideControlsTimeout) {
+        clearTimeout(this.hideControlsTimeout);
+        this.hideControlsTimeout = null;
       }
     },
   },
@@ -194,6 +285,7 @@ export default {
   },
   beforeUnmount() {
     this.stopPlayback();
+    this.clearHideControlsTimer();
   },
 };
 </script>
@@ -278,156 +370,188 @@ export default {
   object-fit: contain;
 }
 
-.image-info {
+/* Top Overlay: Date and Description */
+.top-overlay {
   padding: 0.75rem 1rem;
-  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0.3) 85%, transparent 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  color: white;
+  z-index: 2;
+}
+
+.date-display {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.description-display {
+  font-size: 0.8rem;
+  opacity: 0.95;
+  line-height: 1.3;
+}
+
+/* Bottom Overlay: Timeline Controls */
+.timeline-controls-overlay {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  color: white;
+  padding: 0.75rem 1rem 1rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0.3) 85%, transparent 100%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.date-display {
-  font-size: 1.125rem;
-  font-weight: bold;
-  margin-bottom: 0.25rem;
-}
-
-.description-display {
-  font-size: 0.875rem;
-  opacity: 0.95;
-}
-
-/* Timeline Controls */
-.timeline-controls {
-  /* Mobile: compact padding */
-  padding: 1.5rem 1rem;
+/* Progress Bar Container */
+.progress-bar-container {
   position: relative;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+  order: 2;
 }
 
-.slider-container {
+.progress-bar-container.controls-hidden {
+  opacity: 0;
+}
+
+.progress-bar-background {
   position: relative;
-  padding-bottom: 2.5rem;
-}
-
-.timeline-slider {
-  width: 100%;
   height: 5px;
-  border-radius: 4px;
-  background: #ddd;
-  outline: none;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  cursor: pointer;
+  overflow: visible;
+}
+
+.progress-bar-filled {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 3px;
+  pointer-events: none;
+  transition: width 0.1s ease-out;
+}
+
+/* Interactive Slider Overlay */
+.progress-slider {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  transform: translateY(-50%);
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0;
+  z-index: 2;
   -webkit-appearance: none;
   appearance: none;
 }
 
-input[type="range"] {
-  /* Required to allow styling the thumb in Webkit/Blink browsers */
+.progress-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  /* Standard property for styling in compliant browsers */
-  appearance: none;
-  /* Optional: removes the focus outline for aesthetic purposes */
-  outline: none;
-}
-
-/* Chrome, Safari, Edge, Opera (Webkit/Blink browsers) */
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  /* Set width and height to 0 or a very small value to hide it */
   width: 0;
   height: 0;
-  /* Alternatively, you can use display: none, but this can cause issues in some contexts */
 }
 
-/* Firefox */
-input[type="range"]::-moz-range-thumb {
-  /* Set width and height to 0 or a very small value to hide it */
+.progress-slider::-moz-range-thumb {
   width: 0;
   height: 0;
   border: none;
-  /* Removes the default grey border in Firefox */
 }
 
-/* Timeline Markers */
-.timeline-markers {
+/* Year Markers */
+.year-markers {
   position: absolute;
-  top: 32px;
-  left: 1rem;
-  right: 1rem;
-  height: 50px;
+  bottom: 12px;
+  left: 0;
+  right: 0;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
 }
 
-.marker {
+.year-markers.visible {
+  opacity: 1;
+}
+
+.year-marker {
   position: absolute;
   transform: translateX(-50%);
-  cursor: pointer;
-  transition: all 0.2s;
   pointer-events: auto;
-  /* Mobile: larger touch target */
-  padding: 4px;
+  cursor: pointer;
 }
 
-.marker-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #bbb;
-  margin: 0 auto 0.4rem;
-  transition: all 0.2s;
-}
-
-.marker.active .marker-dot {
-  background: var(--color-primary);
-  width: 14px;
-  height: 14px;
-  box-shadow: 0 0 0 3px rgba(44, 95, 45, 0.2);
-}
-
-.marker-label {
-  font-size: 0.75rem;
-  font-weight: bold;
-  color: #666;
+.year-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: white;
   text-align: center;
   white-space: nowrap;
-}
-
-.marker.active .marker-label {
-  color: var(--color-primary);
-  font-size: 0.85rem;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  padding: 2px 4px;
+  background: rgba(0,0,0,0.6);
+  border-radius: 3px;
 }
 
 /* Playback Controls */
 .playback-controls {
   display: flex;
   gap: 0.5rem;
-  justify-content: center;
-  flex-wrap: wrap;
+  align-items: center;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+  order: 1;
 }
 
-.control-btn {
-  /* Mobile: touch-friendly sizing */
-  padding: 0.875rem 1.25rem;
-  min-height: 44px;
-  font-size: 0.9rem;
-  border: 2px solid var(--color-primary);
-  background: white;
-  color: var(--color-primary);
-  border-radius: 6px;
+.playback-controls.controls-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.control-icon-btn {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  color: #1a3a1b;
+  border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s;
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   touch-action: manipulation;
 }
 
-.control-btn:hover:not(:disabled) {
-  background: var(--color-primary);
-  color: white;
+.control-icon-btn svg {
+  width: 20px;
+  height: 20px;
 }
 
-.control-btn:disabled {
-  opacity: 0.4;
+.control-icon-btn:hover:not(:disabled) {
+  background: white;
+  transform: scale(1.1);
+}
+
+.control-icon-btn:disabled {
+  opacity: 0.3;
   cursor: not-allowed;
+}
+
+.control-icon-btn:disabled:hover {
+  transform: none;
 }
 
 /* Tablet and up */
@@ -465,88 +589,48 @@ input[type="range"]::-moz-range-thumb {
     max-height: 500px;
   }
 
-  .image-info {
+  .top-overlay {
     padding: 1rem 1.5rem;
   }
 
   .date-display {
-    font-size: 1.35rem;
-    margin-bottom: 0.4rem;
+    font-size: 1.2rem;
+    margin-bottom: 0.35rem;
   }
 
   .description-display {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
 
-  .timeline-controls {
-    padding: 2rem 1.5rem;
+  .timeline-controls-overlay {
+    padding: 1rem 1.5rem 1.25rem;
   }
 
-  .slider-container {
-    padding-bottom: 3rem;
-  }
-/*
-  .timeline-slider::-webkit-slider-thumb {
-    width: 20px;
-    height: 20px;
+  .progress-bar-background {
+    height: 6px;
   }
 
-  .timeline-slider::-webkit-slider-thumb:hover {
-    transform: scale(1.2);
+  .progress-bar-background:hover {
+    height: 8px;
+    transition: height 0.1s ease-in-out;
   }
 
-  .timeline-slider::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
+  .year-markers {
+    bottom: 14px;
   }
 
-  .timeline-slider::-moz-range-thumb:hover {
-    transform: scale(1.2);
-  }
-*/
-  .timeline-markers {
-    top: 38px;
-    left: 1.5rem;
-    right: 1.5rem;
-    height: 60px;
+  .year-label {
+    font-size: 0.75rem;
   }
 
-  .marker-dot {
-    width: 12px;
-    height: 12px;
-    margin-bottom: 0.5rem;
+  .control-icon-btn {
+    width: 44px;
+    height: 44px;
   }
 
-  .marker.active .marker-dot {
-    width: 16px;
-    height: 16px;
-    box-shadow: 0 0 0 4px rgba(44, 95, 45, 0.2);
-  }
-
-  .marker:hover .marker-dot {
-    background: var(--color-primary);
-    transform: scale(1.2);
-  }
-
-  .marker-label {
-    font-size: 0.85rem;
-  }
-
-  .marker.active .marker-label {
-    font-size: 0.95rem;
-  }
-
-  .playback-controls {
-    gap: 1rem;
-  }
-
-  .control-btn {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-  }
-
-  .control-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
+  .control-icon-btn svg {
+    width: 22px;
+    height: 22px;
   }
 }
 
@@ -556,13 +640,48 @@ input[type="range"]::-moz-range-thumb {
     max-height: 600px;
   }
 
+  .top-overlay {
+    padding: 1.25rem 2rem;
+  }
+
   .date-display {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     margin-bottom: 0.5rem;
   }
 
   .description-display {
     font-size: 1rem;
+  }
+
+  .timeline-controls-overlay {
+    padding: 1.25rem 2rem 1.5rem;
+  }
+
+  .progress-bar-background {
+    height: 7px;
+  }
+
+  .progress-bar-background:hover {
+    height: 10px;
+  }
+
+  .year-markers {
+    bottom: 16px;
+  }
+
+  .year-label {
+    font-size: 0.8rem;
+    padding: 3px 6px;
+  }
+
+  .control-icon-btn {
+    width: 48px;
+    height: 48px;
+  }
+
+  .control-icon-btn svg {
+    width: 24px;
+    height: 24px;
   }
 }
 </style>

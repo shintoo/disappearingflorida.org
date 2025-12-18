@@ -1,0 +1,45 @@
+{
+  "id": "debary-ryanhomes-lennar",
+  "name": "DeBary - Ryan Homes & Lennar Development",
+  "county": "Volusia",
+  "ecosystem_type": "Pine Flatwoods & Wetlands",
+  "latitude": 28.8717,
+  "longitude": -81.3245,
+  "thumbnail_url": "/static/images/timelines/debary-ryanhomes-lennar/2025-08-05-debary-ryanhomes-lennar.png",
+  "description_short": "Large-scale suburban development replacing native pine flatwoods and wetland habitats in DeBary.",
+  "description_full": "This area in DeBary, Florida shows the transformation of natural pine flatwoods and wetland ecosystems into suburban housing developments by Ryan Homes and Lennar. Between 2019 and 2025, hundreds of acres of habitat were cleared for single-family home subdivisions, demonstrating the rapid pace of Florida's ongoing development boom.",
+  "time_points": [
+    {
+      "year": 2019,
+      "date": "2019-11-27",
+      "image_url": "/static/images/timelines/debary-ryanhomes-lennar/2019-11-27-debary-ryanhomes-lennar.png",
+      "description": "Before development - intact pine flatwoods and wetlands"
+    },
+    {
+      "year": 2021,
+      "date": "2021-05-08",
+      "image_url": "/static/images/timelines/debary-ryanhomes-lennar/2021-05-08-debary-ryanhomes-lennar.png",
+      "description": "Initial clearing and infrastructure development begins"
+    },
+    {
+      "year": 2021,
+      "date": "2021-12-13",
+      "image_url": "/static/images/timelines/debary-ryanhomes-lennar/2021-12-13-debary-ryanhomes-lennar.png",
+      "description": "Extensive land clearing and road construction underway"
+    },
+    {
+      "year": 2023,
+      "date": "2023-02-07",
+      "image_url": "/static/images/timelines/debary-ryanhomes-lennar/2023-02-07-debary-ryanhomes-lennar.png",
+      "description": "Housing construction progressing, most habitat cleared"
+    },
+    {
+      "year": 2025,
+      "date": "2025-08-05",
+      "image_url": "/static/images/timelines/debary-ryanhomes-lennar/2025-08-05-debary-ryanhomes-lennar.png",
+      "description": "Development largely complete - natural habitat replaced by suburban sprawl"
+    }
+  ],
+  "affected_species_ids": [],
+  "habitat_loss_acres": 250
+}

@@ -26,14 +26,14 @@
             <router-link to="/satellite-imagery" class="btn">Explore</router-link>
           </div>
           <div class="tool-card">
-            <h3>Density Calculator</h3>
-            <p>Compare land use between sprawl and compact development</p>
-            <router-link to="/density-calculator" class="btn">Calculate</router-link>
-          </div>
-          <div class="tool-card">
             <h3>Species Impact</h3>
             <p>Learn about wildlife affected by habitat loss</p>
             <router-link to="/species" class="btn">Discover</router-link>
+          </div>
+          <div class="tool-card">
+            <h3>Build Better</h3>
+            <p>Compare land use between sprawl and smarter development</p>
+            <router-link to="/density-calculator" class="btn">Calculate</router-link>
           </div>
         </div>
       </div>

@@ -62,9 +62,6 @@
           <!-- Progress Bar Container -->
           <div
             class="progress-bar-container"
-            :class="{ 'controls-hidden': controlsHidden }"
-            @mouseenter="showYearLabels = true"
-            @mouseleave="showYearLabels = false"
           >
             <!-- Progress Bar Background -->
             <div class="progress-bar-background">
@@ -83,8 +80,8 @@
                 class="progress-slider"
               />
 
-              <!-- Year Markers (only visible on hover) -->
-              <div class="year-markers" :class="{ 'visible': showYearLabels }">
+              <!-- Year Markers (visible when mouse is active) -->
+              <div class="year-markers" :class="{ 'visible': !controlsHidden }">
                 <div
                   v-for="(point, index) in location.time_points"
                   :key="index"
@@ -357,7 +354,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Mobile: allow taller aspect ratio */
+  /* Mobile: portrait aspect ratio for rotated images */
+  aspect-ratio: 9 / 16;
   min-height: 200px;
 }
 
@@ -365,8 +363,12 @@ export default {
   width: 100%;
   height: auto;
   display: block;
-  /* Mobile: allow more vertical space */
-  max-height: 400px;
+  /* Mobile: rotate 90 degrees and adjust sizing */
+  transform: rotate(90deg);
+  max-height: none;
+  /* Make the rotated image fill the portrait container */
+  height: 100%;
+  width: auto;
   object-fit: contain;
 }
 
@@ -413,12 +415,7 @@ export default {
 .progress-bar-container {
   position: relative;
   opacity: 1;
-  transition: opacity 0.3s ease-in-out;
   order: 2;
-}
-
-.progress-bar-container.controls-hidden {
-  opacity: 0;
 }
 
 .progress-bar-background {
@@ -435,7 +432,7 @@ export default {
   top: 0;
   left: 0;
   height: 100%;
-  background: var(--color-primary);
+  background: var(--color-highlight);
   border-radius: 3px;
   pointer-events: none;
   transition: width 0.1s ease-out;
@@ -583,10 +580,16 @@ export default {
 
   .image-wrapper {
     min-height: 300px;
+    /* Reset to landscape aspect ratio for tablet+ */
+    aspect-ratio: auto;
   }
 
   .satellite-image {
     max-height: 500px;
+    /* Reset rotation for tablet+ */
+    transform: none;
+    width: 100%;
+    height: auto;
   }
 
   .top-overlay {

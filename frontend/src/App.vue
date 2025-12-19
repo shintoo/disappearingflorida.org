@@ -21,8 +21,8 @@
         <!-- Navigation menu with mobile toggle -->
         <ul class="nav-menu" :class="{ 'is-open': mobileMenuOpen }">
           <li><router-link to="/satellite-imagery" @click="closeMobileMenu">Satellite Imagery</router-link></li>
-          <li><router-link to="/density-calculator" @click="closeMobileMenu">Build Better</router-link></li>
           <li><router-link to="/species" @click="closeMobileMenu">Impact</router-link></li>
+          <li><router-link to="/density-calculator" @click="closeMobileMenu">Build Better</router-link></li>
           <li><router-link to="/about" @click="closeMobileMenu">About</router-link></li>
         </ul>
       </div>
@@ -286,10 +286,11 @@ body {
 }
 
 .site-footer {
-  background-color: var(--color-primary-dark);
+  background-color: var(--color-primary);
   color: white;
   text-align: center;
   padding: 2rem;
+  height: 15rem;
   margin-top: 4rem;
 }
 </style>

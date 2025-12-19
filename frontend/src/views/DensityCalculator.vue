@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { calculateDensityImpact } from '@/utils/densityCalculations'
 
 export default {
   name: 'DensityCalculator',
@@ -82,24 +82,41 @@ export default {
   methods: {
     async loadPatterns() {
       try {
-        const response = await axios.get('/api/density/patterns')
-        this.patterns = response.data
+        const response = await fetch('/data/density-patterns.json')
+        if (!response.ok) {
+          throw new Error('Failed to load density patterns')
+        }
+        this.patterns = await response.json()
       } catch (error) {
         console.error('Error loading patterns:', error)
       }
     },
-    async calculate() {
+    calculate() {
       if (!this.canCalculate) return
 
-      const pattern = this.patterns.find(p => p.id === this.selectedPattern)
+      const selectedPatternData = this.patterns.find(
+        p => p.id === this.selectedPattern
+      )
+
+      if (!selectedPatternData) {
+        console.error('Selected pattern not found')
+        return
+      }
 
       try {
-        const response = await axios.post('/api/density/calculate', {
-          population: this.population,
-          people_per_unit: 2.5,
-          pattern: pattern,
-        })
-        this.result = response.data
+        const calculationResult = calculateDensityImpact(
+          this.population,
+          2.5, // people_per_unit
+          selectedPatternData
+        )
+
+        // Map the result to match the template's expected field names
+        this.result = {
+          total_acres: calculationResult.total_acres,
+          comparison_football_fields: calculationResult.football_fields,
+          estimated_co2_tons_per_year: calculationResult.co2_tons_per_year,
+          total_units_needed: calculationResult.total_units,
+        }
       } catch (error) {
         console.error('Error calculating:', error)
       }

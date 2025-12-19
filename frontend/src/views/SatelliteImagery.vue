@@ -146,8 +146,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   name: 'SatelliteImagery',
   data() {
@@ -181,8 +179,12 @@ export default {
         this.loading = true;
         this.error = null;
         // For MVP, we're hardcoding the DeBary/Mt Dora location
-        const response = await axios.get('/api/locations/mtdora');
-        this.location = response.data;
+        const locationId = 'mtdora';
+        const response = await fetch(`/data/locations/${locationId}.json`);
+        if (!response.ok) {
+          throw new Error(`Location ${locationId} not found`);
+        }
+        this.location = await response.json();
       } catch (err) {
         this.error = 'Failed to load location data. Please try again later.';
         console.error('Error fetching location:', err);

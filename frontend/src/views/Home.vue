@@ -78,7 +78,7 @@ export default {
   align-items: center;
   justify-content: center;
   text-align: center;
-  background-image: url(static/images/landing/landing-hero-desktop.png);
+  background-image: url(/images/landing/landing-hero-desktop.png);
   color: white;
   padding: 0 1rem;
 
@@ -92,7 +92,7 @@ export default {
 /* Mobile-specific background image */
 @media (max-width: 767px) {
   .hero {
-    background: url('/static/images/landing/landing-hero-mobile.png') no-repeat center center;
+    background: url('/images/landing/landing-hero-mobile.png') no-repeat center center;
     background-size: cover;
     /* Add overlay to ensure text readability */
     position: relative;

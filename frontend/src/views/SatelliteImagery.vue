@@ -8,148 +8,152 @@
       {{ error }}
     </div>
 
-    <div v-else-if="location" class="timeline-viewer">
-      <!-- Location Info -->
-      <div class="location-info card">
-        <h2>{{ location.name }}</h2>
+    <div v-else-if="location">
 
-        <div class="overview">
-          <div class="overview-item">
-            <span class="overview-label">County</span>
-            <span class="overview-value">{{ location.county }}</span>
+      <div class="timeline-viewer">
+        <!-- Location Info -->
+        <div class="location-info card">
+          <h2>{{ location.name }}</h2>
+
+          <div class="overview">
+            <div class="overview-item">
+              <span class="overview-label">County</span>
+              <span class="overview-value">{{ location.county }}</span>
+            </div>
+            <div class="overview-item">
+              <span class="overview-label">Ecosystem</span>
+              <span class="overview-value">{{ location.ecosystem_type }}</span>
+            </div>
+            <div class="overview-item">
+              <span class="overview-label">Habitat Loss</span>
+              <span class="overview-value">{{ location.habitat_loss_acres }} acres</span>
+            </div>
           </div>
-          <div class="overview-item">
-            <span class="overview-label">Ecosystem</span>
-            <span class="overview-value">{{ location.ecosystem_type }}</span>
-          </div>
-          <div class="overview-item">
-            <span class="overview-label">Habitat Loss</span>
-            <span class="overview-value">{{ location.habitat_loss_acres }} acres</span>
-          </div>
+
+          <p class="description">{{ location.description_full }}</p>
+          <p class="habitat-loss">A total of over {{ location.habitat_loss_acres }} acres of habitat has been lost at
+            this
+            location over the past 20 years.</p>
         </div>
 
-        <p class="description">{{ location.description_full }}</p>
-        <p class="habitat-loss">A total of over {{ location.habitat_loss_acres }} acres of habitat has been lost at this
-          location over the past 20 years.</p>
-      </div>
-
-      <!-- Image Display with Timeline Controls Overlay -->
-      <div class="image-container card">
-        <div class="image-wrapper">
-          <img v-if="currentTimePoint.image_url_mobile" :srcset="`
+        <!-- Image Display with Timeline Controls Overlay -->
+        <div class="image-container card">
+          <div class="image-wrapper">
+            <img v-if="currentTimePoint.image_url_mobile" :srcset="`
               ${currentTimePoint.image_url_mobile} 640w,
               ${currentTimePoint.image_url_tablet || currentTimePoint.image_url} 1024w,
               ${currentTimePoint.image_url_desktop || currentTimePoint.image_url} 1920w
             `" :sizes="`(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1200px`" :src="currentTimePoint.image_url"
-            :alt="`Satellite imagery from ${currentTimePoint.date}`" class="satellite-image" loading="lazy" />
-          <img v-else :src="currentTimePoint.image_url" :alt="`Satellite imagery from ${currentTimePoint.date}`"
-            class="satellite-image" loading="lazy" />
-        </div>
+              :alt="`Satellite imagery from ${currentTimePoint.date}`" class="satellite-image" loading="lazy" />
+            <img v-else :src="currentTimePoint.image_url" :alt="`Satellite imagery from ${currentTimePoint.date}`"
+              class="satellite-image" loading="lazy" />
+          </div>
 
-        <!-- Top Overlay: Date and Description -->
-        <div class="image-info top-overlay">
-          <div class="date-display">{{ formatDate(currentTimePoint.date) }}</div>
-          <div class="description-display">{{ currentTimePoint.description }}</div>
-        </div>
+          <!-- Top Overlay: Date and Description -->
+          <div class="image-info top-overlay">
+            <div class="date-display">{{ formatDate(currentTimePoint.date) }}</div>
+            <div class="description-display">{{ currentTimePoint.description }}</div>
+          </div>
 
-        <!-- Bottom Overlay: Timeline Controls -->
-        <div class="timeline-controls-overlay" @mousemove="handleMouseMove" @mouseleave="handleMouseLeave">
-          <!-- Progress Bar Container -->
-          <div class="progress-bar-container">
-            <!-- Progress Bar Background -->
-            <div class="progress-bar-background">
-              <!-- Filled Progress -->
-              <div class="progress-bar-filled" :style="{ width: `${progressPercentage}%` }"></div>
+          <!-- Bottom Overlay: Timeline Controls -->
+          <div class="timeline-controls-overlay" @mousemove="handleMouseMove" @mouseleave="handleMouseLeave">
+            <!-- Progress Bar Container -->
+            <div class="progress-bar-container">
+              <!-- Progress Bar Background -->
+              <div class="progress-bar-background">
+                <!-- Filled Progress -->
+                <div class="progress-bar-filled" :style="{ width: `${progressPercentage}%` }"></div>
 
-              <!-- Interactive Slider Overlay -->
-              <input type="range" v-model.number="currentIndex" :min="0" :max="location.time_points.length - 1"
-                class="progress-slider" />
+                <!-- Interactive Slider Overlay -->
+                <input type="range" v-model.number="currentIndex" :min="0" :max="location.time_points.length - 1"
+                  class="progress-slider" />
 
-              <!-- Year Markers (visible when mouse is active) -->
-              <div class="year-markers" :class="{ 'visible': !controlsHidden }">
-                <div v-for="(point, index) in location.time_points" :key="index" class="year-marker"
-                  :style="{ left: `${(index / (location.time_points.length - 1)) * 100}%` }"
-                  @click="currentIndex = index">
-                  <div class="year-label">{{ point.year }}</div>
+                <!-- Year Markers (visible when mouse is active) -->
+                <div class="year-markers" :class="{ 'visible': !controlsHidden }">
+                  <div v-for="(point, index) in location.time_points" :key="index" class="year-marker"
+                    :style="{ left: `${(index / (location.time_points.length - 1)) * 100}%` }"
+                    @click="currentIndex = index">
+                    <div class="year-label">{{ point.year }}</div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <!-- Playback Controls (icon-only, bottom left) -->
-          <div class="playback-controls" :class="{ 'controls-hidden': controlsHidden }">
-            <button @click="previousFrame" :disabled="currentIndex === 0" class="control-icon-btn" aria-label="Previous"
-              title="Previous">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
-              </svg>
-            </button>
-            <button @click="togglePlayback" class="control-icon-btn play-btn" :aria-label="isPlaying ? 'Pause' : 'Play'"
-              :title="isPlaying ? 'Pause' : 'Play'">
-              <svg v-if="!isPlaying && currentIndex !== lastIndex" xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24" fill="currentColor">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-              <svg v-else-if="!isPlaying && currentIndex === lastIndex" xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24" fill="currentColor">
-                <path
-                  d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
-              </svg>
-              <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-              </svg>
-            </button>
-            <button @click="nextFrame" :disabled="currentIndex === location.time_points.length - 1"
-              class="control-icon-btn" aria-label="Next" title="Next">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
-              </svg>
-            </button>
+            <!-- Playback Controls (icon-only, bottom left) -->
+            <div class="playback-controls" :class="{ 'controls-hidden': controlsHidden }">
+              <button @click="previousFrame" :disabled="currentIndex === 0" class="control-icon-btn"
+                aria-label="Previous" title="Previous">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
+                </svg>
+              </button>
+              <button @click="togglePlayback" class="control-icon-btn play-btn"
+                :aria-label="isPlaying ? 'Pause' : 'Play'" :title="isPlaying ? 'Pause' : 'Play'">
+                <svg v-if="!isPlaying && currentIndex !== lastIndex" xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+                <svg v-else-if="!isPlaying && currentIndex === lastIndex" xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                </svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                </svg>
+              </button>
+              <button @click="nextFrame" :disabled="currentIndex === location.time_points.length - 1"
+                class="control-icon-btn" aria-label="Next" title="Next">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Impacted Species Highlight -->
-    <div class="impacted-species">
-      <h1>Who lived here?</h1>
-      <div class="species-features">
-        <div v-for="species in this.impactedSpecies" class="species-feature">
-          <img :src="species.image_url" />
-          <span>{{ species.name }}</span>
+      <!-- Impacted Species Highlight -->
+      <div class="impacted-species">
+        <h1>Who lived here?</h1>
+        <div class="species-features">
+          <div v-for="species in this.impactedSpecies" class="species-feature">
+            <img :src="species.image_url" />
+            <span>{{ species.name }}</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Before/After Image Slider -->
-    <p v-if="location?.street_view" class="before-after-slider-description">{{ location.street_view.description }}</p>
+      <!-- Before/After Image Slider -->
+      <p v-if="location?.street_view" class="before-after-slider-description">{{ location.street_view.description }}</p>
 
-    <div v-if="location?.street_view" class="before-after-slider">
-      <div class="slider-container" @mousedown="startDragging" @mousemove="drag" @mouseup="stopDragging"
-        @mouseleave="stopDragging" @touchstart="startDragging" @touchmove="drag" @touchend="stopDragging">
-        <!-- After Image (full width, behind) -->
-        <div class="image-layer after-image">
-          <img :src="location.street_view.after.image_url" alt="After" />
-          <div class="image-label after-label">{{ location.street_view.after.date }}</div>
-        </div>
-
-        <!-- Before Image (clipped by slider position) -->
-        <div class="image-layer before-image" :style="{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }">
-          <img :src="location.street_view.before.image_url" alt="Before" />
-          <div class="image-label before-label">{{ location.street_view.before.date }}</div>
-        </div>
-
-        <!-- Slider Handle -->
-        <div class="slider-handle" :style="{ left: `${sliderPosition}%` }">
-          <div class="handle-line"></div>
-          <div class="handle-grip">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z" transform="translate(-5, 0)" />
-              <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"
-                transform="translate(30, 24) rotate(180)" />
-            </svg>
+      <div v-if="location?.street_view" class="before-after-slider">
+        <div class="slider-container" @mousedown="startDragging" @mousemove="drag" @mouseup="stopDragging"
+          @mouseleave="stopDragging" @touchstart="startDragging" @touchmove="drag" @touchend="stopDragging">
+          <!-- After Image (full width, behind) -->
+          <div class="image-layer after-image">
+            <img :src="location.street_view.after.image_url" alt="After" />
+            <div class="image-label after-label">{{ location.street_view.after.date }}</div>
           </div>
-          <div class="handle-line"></div>
+
+          <!-- Before Image (clipped by slider position) -->
+          <div class="image-layer before-image" :style="{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }">
+            <img :src="location.street_view.before.image_url" alt="Before" />
+            <div class="image-label before-label">{{ location.street_view.before.date }}</div>
+          </div>
+
+          <!-- Slider Handle -->
+          <div class="slider-handle" :style="{ left: `${sliderPosition}%` }">
+            <div class="handle-line"></div>
+            <div class="handle-grip">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z" transform="translate(-5, 0)" />
+                <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"
+                  transform="translate(30, 24) rotate(180)" />
+              </svg>
+            </div>
+            <div class="handle-line"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -689,12 +693,15 @@ export default {
   scroll-behavior: smooth;
   width: 100%;
   /* Hide scrollbar but keep functionality */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE/Edge */
 }
 
 .species-features::-webkit-scrollbar {
-  display: none; /* Chrome/Safari/Opera */
+  display: none;
+  /* Chrome/Safari/Opera */
 }
 
 .species-feature {

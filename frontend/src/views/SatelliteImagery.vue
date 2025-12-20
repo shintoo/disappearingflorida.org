@@ -676,6 +676,15 @@ export default {
 .species-features {
   display: flex;
   justify-content: space-between;
+  /* Mobile: horizontal scroll */
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  gap: 1.5rem;
+  padding: 0 1rem;
+  /* Start scrolled to the left */
+  scroll-padding-left: 0;
 }
 
 .species-feature {
@@ -683,6 +692,9 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* Mobile: prevent shrinking for scroll */
+  flex-shrink: 0;
+  scroll-snap-align: start;
 }
 
 .species-feature img {
@@ -805,11 +817,17 @@ export default {
 .before-after-slider-description {
   text-align: center;
   font-size: 1.2rem;
-  margin: 5rem;
 }
 
 /* Tablet and up */
 @media (min-width: 768px) {
+  .species-features {
+    /* Restore centered layout for tablet+ */
+    overflow-x: visible;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
   .subtitle {
     font-size: 1.25rem;
     margin-bottom: 2rem;
@@ -891,6 +909,11 @@ export default {
   .control-icon-btn svg {
     width: 22px;
     height: 22px;
+  }
+
+  .before-after-slider-description {
+    margin: 5rem;
+    font-size: 1.5rem;
   }
 
   .before-after-slider h3 {

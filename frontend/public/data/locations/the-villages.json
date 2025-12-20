@@ -7,7 +7,18 @@
   "latitude": 0.0,
   "longitude": 0.0,
   "thumbnail_url": "/images/timelines/the-villages/1985-12-31.png",
-  "description_full": "The Villages is one of the fastest growing developments in Central Florida. A retirement community, it was the top-selling master-planned community in the United States until 2019, with over 24,400 homes sold during that time. Much of the land that has now been developed was previously agricultural, serving as orange groves and cattle ranches, as well as untouched wild land including longleaf pine forests and wetlands. Home sizes range from 1,400 to 5,900 square feet.",
+  "description_full": "The Villages is one of the fastest growing developments in Central Florida. A retirement community, it was the top-selling master-planned community in the United States until 2019, with over 24,400 homes sold during that time. Much of the land that has now been developed was previously agricultural, serving as orange groves and cattle ranches, as well as untouched wild land including longleaf pine forests and wetlands. The Villages is home to 50 golf courses, and home sizes that range from 1,400 to 5,900 square feet.",
+  "street_view": {
+    "description": "Land cleared along Sumter County road 501, for \"The Village of Oak Hollow\", one of over 100 neighborhoods that make up The Villages.",
+    "before": {
+      "date": "April 2021",
+      "image_url": "/images/timelines/the-villages/the-villages-streetview-2021-04.jpg"
+    },
+    "after": {
+      "date": "April 2025",
+      "image_url": "/images/timelines/the-villages/the-villages-streetview-2025-04.jpg"
+    }
+  },
   "time_points": [
     {
       "year": 1985,
@@ -164,10 +175,11 @@
     }
   ],
   "impacted_species": [
+    "florida-scrub-jay",
     "sandhill-crane",
     "american-alligator",
-    "monarch-butterfly"
-
+    "monarch-butterfly",
+    "bald-eagle"
   ],
   "habitat_loss_acres": 20896
 }

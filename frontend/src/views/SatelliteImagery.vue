@@ -31,9 +31,8 @@
           </div>
 
           <p class="description">{{ location.description_full }}</p>
-          <p class="habitat-loss">A total of over {{ location.habitat_loss_acres.toLocaleString('en-US') }} acres of habitat has been lost at
-            this
-            location over the past 20 years.</p>
+          <p class="habitat-loss">A total of over {{ location.habitat_loss_acres.toLocaleString('en-US') }} acres has been lost to development at
+            this location over the past 20 years.</p>
         </div>
 
         <!-- Image Display with Timeline Controls Overlay -->
@@ -206,7 +205,7 @@ export default {
         this.loading = true;
         this.error = null;
         // For MVP, we're hardcoding the DeBary/Mt Dora location
-        const locationId = 'mtdora';
+        const locationId = 'the-villages';
         const response = await fetch(`/data/locations/${locationId}.json`);
         if (!response.ok) {
           throw new Error(`Location ${locationId} not found`);

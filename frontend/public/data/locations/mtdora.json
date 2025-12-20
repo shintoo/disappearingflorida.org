@@ -1,13 +1,27 @@
 {
   "id": "mtdora",
   "name": "Mt Dora",
-  "county": "",
-  "ecosystem_type": "",
-  "latitude": 0.0,
-  "longitude": 0.0,
+  "county": "Lake County, Orange County",
+  "developers": [
+    "Lennar",
+    "Pulte Homes"
+  ],
+  "ecosystem_type": "Sandhill",
+  "latitude": 28.779722,
+  "longitude": -81.604722,
   "thumbnail_url": "/images/timelines/mt-dora-se/2004-12-31-mtdora.png",
-  "description_short": "Development site in Florida showing habitat transformation.",
-  "description_full": "This area shows the transformation of natural ecosystems into suburban development. Images span from 2004-12-31 to 2025-05-17.",
+  "description_full": "This area of Mt Dora shows the development of multiple single-family residential neighborhoods completed by various developers including the prominent Lennar and Pulte Homes. Over the years, central to the habitat loss is the construction of the gated community Stoneybrook Hills, a development of over 900 homes with sizes from 1,200 to 4,500 square feet. Homes include up to 6 bedrooms and up to 5 bathrooms, on lot sizes of about a third of an acre.",
+  "street_view": {
+    "description": "The land clearing completed for the development of the Bargrove Estates neighborhood, built by the developer Risewell Homes, can be seen below.",
+    "before": {
+      "date": "September 2019",
+      "image_url": "/images/timelines/mt-dora-se/mtdora-streetview-2019-09.png"
+    },
+    "after": {
+      "date": "February 2021",
+      "image_url": "/images/timelines/mt-dora-se/mtdora-streetview-2021-02.png"
+    }
+  },
   "time_points": [
     {
       "year": 2004,
@@ -16,7 +30,7 @@
       "image_url_mobile": "/images/timelines/mt-dora-se/2004-12-31-mtdora-mobile.webp",
       "image_url_tablet": "/images/timelines/mt-dora-se/2004-12-31-mtdora-tablet.webp",
       "image_url_desktop": "/images/timelines/mt-dora-se/2004-12-31-mtdora-desktop.webp",
-      "description": "Before development - intact natural habitat"
+      "description": "Before development - intact natural habitat and disused farmland"
     },
     {
       "year": 2005,
@@ -25,7 +39,7 @@
       "image_url_mobile": "/images/timelines/mt-dora-se/2005-01-19-mtdora-mobile.webp",
       "image_url_tablet": "/images/timelines/mt-dora-se/2005-01-19-mtdora-tablet.webp",
       "image_url_desktop": "/images/timelines/mt-dora-se/2005-01-19-mtdora-desktop.webp",
-      "description": "Development in progress - 2005-01-19"
+      "description": "Land clearing begins for central roads through the development"
     },
     {
       "year": 2005,
@@ -34,7 +48,7 @@
       "image_url_mobile": "/images/timelines/mt-dora-se/2005-11-23-mtdora-mobile.webp",
       "image_url_tablet": "/images/timelines/mt-dora-se/2005-11-23-mtdora-tablet.webp",
       "image_url_desktop": "/images/timelines/mt-dora-se/2005-11-23-mtdora-desktop.webp",
-      "description": "Development in progress - 2005-11-23"
+      "description": "Extensive land clearing is completed for suburban development"
     },
     {
       "year": 2011,
@@ -43,7 +57,7 @@
       "image_url_mobile": "/images/timelines/mt-dora-se/2011-11-13-mtdora-mobile.webp",
       "image_url_tablet": "/images/timelines/mt-dora-se/2011-11-13-mtdora-tablet.webp",
       "image_url_desktop": "/images/timelines/mt-dora-se/2011-11-13-mtdora-desktop.webp",
-      "description": "Development in progress - 2011-11-13"
+      "description": "Clearing expands as first homes are completed"
     },
     {
       "year": 2018,
@@ -52,7 +66,7 @@
       "image_url_mobile": "/images/timelines/mt-dora-se/2018-12-18-mtdora-mobile.webp",
       "image_url_tablet": "/images/timelines/mt-dora-se/2018-12-18-mtdora-tablet.webp",
       "image_url_desktop": "/images/timelines/mt-dora-se/2018-12-18-mtdora-desktop.webp",
-      "description": "Development in progress - 2018-12-18"
+      "description": "Much of the housing in the central neighborhood is completed"
     },
     {
       "year": 2019,
@@ -61,7 +75,7 @@
       "image_url_mobile": "/images/timelines/mt-dora-se/2019-11-27-mtdora-mobile.webp",
       "image_url_tablet": "/images/timelines/mt-dora-se/2019-11-27-mtdora-tablet.webp",
       "image_url_desktop": "/images/timelines/mt-dora-se/2019-11-27-mtdora-desktop.webp",
-      "description": "Development in progress - 2019-11-27"
+      "description": "Land clearing continues for expansion"
     },
     {
       "year": 2021,
@@ -70,7 +84,7 @@
       "image_url_mobile": "/images/timelines/mt-dora-se/2021-01-10-mtdora-mobile.webp",
       "image_url_tablet": "/images/timelines/mt-dora-se/2021-01-10-mtdora-tablet.webp",
       "image_url_desktop": "/images/timelines/mt-dora-se/2021-01-10-mtdora-desktop.webp",
-      "description": "Development in progress - 2021-01-10"
+      "description": "Continued construction and additional land clearing for multiple developments is visible"
     },
     {
       "year": 2022,
@@ -79,7 +93,7 @@
       "image_url_mobile": "/images/timelines/mt-dora-se/2022-04-16-mtdora-mobile.webp",
       "image_url_tablet": "/images/timelines/mt-dora-se/2022-04-16-mtdora-tablet.webp",
       "image_url_desktop": "/images/timelines/mt-dora-se/2022-04-16-mtdora-desktop.webp",
-      "description": "Development in progress - 2022-04-16"
+      "description": "Clearing for new developments appears"
     },
     {
       "year": 2024,
@@ -88,7 +102,7 @@
       "image_url_mobile": "/images/timelines/mt-dora-se/2024-04-17-mtdora-mobile.webp",
       "image_url_tablet": "/images/timelines/mt-dora-se/2024-04-17-mtdora-tablet.webp",
       "image_url_desktop": "/images/timelines/mt-dora-se/2024-04-17-mtdora-desktop.webp",
-      "description": "Development in progress - 2024-04-17"
+      "description": "Ongoing clearing for further housing development"
     },
     {
       "year": 2025,
@@ -97,9 +111,15 @@
       "image_url_mobile": "/images/timelines/mt-dora-se/2025-05-17-mtdora-mobile.webp",
       "image_url_tablet": "/images/timelines/mt-dora-se/2025-05-17-mtdora-tablet.webp",
       "image_url_desktop": "/images/timelines/mt-dora-se/2025-05-17-mtdora-desktop.webp",
-      "description": "Current state - development complete"
+      "description": "Development continues as more land is cleared for sprawl"
     }
   ],
-  "affected_species_ids": [],
-  "habitat_loss_acres": 0
+  "impacted_species": [
+    "gopher-tortoise",
+    "american-alligator",
+    "sandhill-crane",
+    "painted-bunting",
+    "monarch-butterfly"
+  ],
+  "habitat_loss_acres": 2900
 }

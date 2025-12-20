@@ -4,7 +4,7 @@
       <div class="hero-content">
         <h1>Disappearing Florida</h1>
         <p class="hero-subtitle">
-          Irresponsible development threatens to eliminate Florida's beautiful natural landscapes
+          Irresponsible development threatens to eliminate Florida's beautiful natural landscapes and the habitats of our wildlife.
         </p>
         <div class="hero-actions">
           <router-link to="/satellite-imagery" class="btn btn-secondary">See Timelapse</router-link>

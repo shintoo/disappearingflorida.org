@@ -12,39 +12,38 @@
       <!-- Location Info -->
       <div class="location-info card">
         <h2>{{ location.name }}</h2>
-        <div class="location-meta">
-          <span class="meta-item"><strong>County:</strong> {{ location.county }}</span>
-          <span class="meta-item"><strong>Ecosystem:</strong> {{ location.ecosystem_type }}</span>
-          <span class="meta-item" v-if="location.habitat_loss_acres">
-            <strong>Habitat Lost:</strong> ~{{ location.habitat_loss_acres }} acres
-          </span>
+
+        <div class="overview">
+          <div class="overview-item">
+            <span class="overview-label">County</span>
+            <span class="overview-value">{{ location.county }}</span>
+          </div>
+          <div class="overview-item">
+            <span class="overview-label">Ecosystem</span>
+            <span class="overview-value">{{ location.ecosystem_type }}</span>
+          </div>
+          <div class="overview-item">
+            <span class="overview-label">Habitat Loss</span>
+            <span class="overview-value">{{ location.habitat_loss_acres }} acres</span>
+          </div>
         </div>
+
         <p class="description">{{ location.description_full }}</p>
+        <p class="habitat-loss">A total of over {{ location.habitat_loss_acres }} acres of habitat has been lost at this
+          location over the past 20 years.</p>
       </div>
 
       <!-- Image Display with Timeline Controls Overlay -->
       <div class="image-container card">
         <div class="image-wrapper">
-          <img
-            v-if="currentTimePoint.image_url_mobile"
-            :srcset="`
+          <img v-if="currentTimePoint.image_url_mobile" :srcset="`
               ${currentTimePoint.image_url_mobile} 640w,
               ${currentTimePoint.image_url_tablet || currentTimePoint.image_url} 1024w,
               ${currentTimePoint.image_url_desktop || currentTimePoint.image_url} 1920w
-            `"
-            :sizes="`(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1200px`"
-            :src="currentTimePoint.image_url"
-            :alt="`Satellite imagery from ${currentTimePoint.date}`"
-            class="satellite-image"
-            loading="lazy"
-          />
-          <img
-            v-else
-            :src="currentTimePoint.image_url"
-            :alt="`Satellite imagery from ${currentTimePoint.date}`"
-            class="satellite-image"
-            loading="lazy"
-          />
+            `" :sizes="`(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1200px`" :src="currentTimePoint.image_url"
+            :alt="`Satellite imagery from ${currentTimePoint.date}`" class="satellite-image" loading="lazy" />
+          <img v-else :src="currentTimePoint.image_url" :alt="`Satellite imagery from ${currentTimePoint.date}`"
+            class="satellite-image" loading="lazy" />
         </div>
 
         <!-- Top Overlay: Date and Description -->
@@ -54,41 +53,23 @@
         </div>
 
         <!-- Bottom Overlay: Timeline Controls -->
-        <div
-          class="timeline-controls-overlay"
-          @mousemove="handleMouseMove"
-          @mouseleave="handleMouseLeave"
-        >
+        <div class="timeline-controls-overlay" @mousemove="handleMouseMove" @mouseleave="handleMouseLeave">
           <!-- Progress Bar Container -->
-          <div
-            class="progress-bar-container"
-          >
+          <div class="progress-bar-container">
             <!-- Progress Bar Background -->
             <div class="progress-bar-background">
               <!-- Filled Progress -->
-              <div
-                class="progress-bar-filled"
-                :style="{ width: `${progressPercentage}%` }"
-              ></div>
+              <div class="progress-bar-filled" :style="{ width: `${progressPercentage}%` }"></div>
 
               <!-- Interactive Slider Overlay -->
-              <input
-                type="range"
-                v-model.number="currentIndex"
-                :min="0"
-                :max="location.time_points.length - 1"
-                class="progress-slider"
-              />
+              <input type="range" v-model.number="currentIndex" :min="0" :max="location.time_points.length - 1"
+                class="progress-slider" />
 
               <!-- Year Markers (visible when mouse is active) -->
               <div class="year-markers" :class="{ 'visible': !controlsHidden }">
-                <div
-                  v-for="(point, index) in location.time_points"
-                  :key="index"
-                  class="year-marker"
+                <div v-for="(point, index) in location.time_points" :key="index" class="year-marker"
                   :style="{ left: `${(index / (location.time_points.length - 1)) * 100}%` }"
-                  @click="currentIndex = index"
-                >
+                  @click="currentIndex = index">
                   <div class="year-label">{{ point.year }}</div>
                 </div>
               </div>
@@ -96,49 +77,79 @@
           </div>
 
           <!-- Playback Controls (icon-only, bottom left) -->
-          <div
-            class="playback-controls"
-            :class="{ 'controls-hidden': controlsHidden }"
-          >
-            <button
-              @click="previousFrame"
-              :disabled="currentIndex === 0"
-              class="control-icon-btn"
-              aria-label="Previous"
-              title="Previous"
-            >
+          <div class="playback-controls" :class="{ 'controls-hidden': controlsHidden }">
+            <button @click="previousFrame" :disabled="currentIndex === 0" class="control-icon-btn" aria-label="Previous"
+              title="Previous">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+                <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
               </svg>
             </button>
-            <button
-              @click="togglePlayback"
-              class="control-icon-btn play-btn"
-              :aria-label="isPlaying ? 'Pause' : 'Play'"
-              :title="isPlaying ? 'Pause' : 'Play'"
-            >
-              <svg v-if="!isPlaying && currentIndex !== lastIndex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M8 5v14l11-7z"/>
+            <button @click="togglePlayback" class="control-icon-btn play-btn" :aria-label="isPlaying ? 'Pause' : 'Play'"
+              :title="isPlaying ? 'Pause' : 'Play'">
+              <svg v-if="!isPlaying && currentIndex !== lastIndex" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
               </svg>
-              <svg v-else-if="!isPlaying && currentIndex === lastIndex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+              <svg v-else-if="!isPlaying && currentIndex === lastIndex" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
               </svg>
               <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
               </svg>
             </button>
-            <button
-              @click="nextFrame"
-              :disabled="currentIndex === location.time_points.length - 1"
-              class="control-icon-btn"
-              aria-label="Next"
-              title="Next"
-            >
+            <button @click="nextFrame" :disabled="currentIndex === location.time_points.length - 1"
+              class="control-icon-btn" aria-label="Next" title="Next">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
               </svg>
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Impacted Species Highlight -->
+    <div class="impacted-species">
+      <h1>Who lived here?</h1>
+      <div class="species-features">
+        <div v-for="species in this.impactedSpecies" class="species-feature">
+          <img :src="species.image_url" />
+          <span>{{ species.name }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Before/After Image Slider -->
+    <p v-if="location?.street_view" class="before-after-slider-description">{{ location.street_view.description }}</p>
+
+    <div v-if="location?.street_view" class="before-after-slider">
+      <div class="slider-container" @mousedown="startDragging" @mousemove="drag" @mouseup="stopDragging"
+        @mouseleave="stopDragging" @touchstart="startDragging" @touchmove="drag" @touchend="stopDragging">
+        <!-- After Image (full width, behind) -->
+        <div class="image-layer after-image">
+          <img :src="location.street_view.after.image_url" alt="After" />
+          <div class="image-label after-label">{{ location.street_view.after.date }}</div>
+        </div>
+
+        <!-- Before Image (clipped by slider position) -->
+        <div class="image-layer before-image" :style="{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }">
+          <img :src="location.street_view.before.image_url" alt="Before" />
+          <div class="image-label before-label">{{ location.street_view.before.date }}</div>
+        </div>
+
+        <!-- Slider Handle -->
+        <div class="slider-handle" :style="{ left: `${sliderPosition}%` }">
+          <div class="handle-line"></div>
+          <div class="handle-grip">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z" transform="translate(-5, 0)" />
+              <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"
+                transform="translate(30, 24) rotate(180)" />
+            </svg>
+          </div>
+          <div class="handle-line"></div>
         </div>
       </div>
     </div>
@@ -151,6 +162,7 @@ export default {
   data() {
     return {
       location: null,
+      species: null,
       loading: true,
       error: null,
       currentIndex: 0,
@@ -159,6 +171,9 @@ export default {
       controlsHidden: false,
       hideControlsTimeout: null,
       showYearLabels: false,
+      // Before/After slider state
+      sliderPosition: 50,
+      isDragging: false,
     };
   },
   computed: {
@@ -171,6 +186,14 @@ export default {
     progressPercentage() {
       if (!this.location || this.location.time_points.length <= 1) return 0;
       return (this.currentIndex / (this.location.time_points.length - 1)) * 100;
+    },
+    impactedSpecies() {
+      if (!this.location || !this.species) return [];
+
+      // Filter the species list based on impacted species at this location
+      return Object.fromEntries(
+        Object.entries(this.species).filter(([key]) => this.location.impacted_species.includes(key))
+      )
     }
   },
   methods: {
@@ -188,6 +211,22 @@ export default {
       } catch (err) {
         this.error = 'Failed to load location data. Please try again later.';
         console.error('Error fetching location:', err);
+      } finally {
+        this.loading = false;
+      }
+    },
+    async fetchSpecies() {
+      try {
+        this.loading = true;
+        this.error = null;
+        const response = await fetch(`/data/species.json`);
+        if (!response.ok) {
+          throw new Error(`Error loading species information`);
+        }
+        this.species = await response.json();
+      } catch (err) {
+        this.error = 'Failed to load species data. Please try again later.';
+        console.error('Error fetching species:', err);
       } finally {
         this.loading = false;
       }
@@ -278,9 +317,42 @@ export default {
         this.hideControlsTimeout = null;
       }
     },
+    // Before/After slider methods
+    startDragging(event) {
+      this.isDragging = true;
+      this.updateSliderPosition(event);
+    },
+    drag(event) {
+      if (!this.isDragging) return;
+      event.preventDefault();
+      this.updateSliderPosition(event);
+    },
+    stopDragging() {
+      this.isDragging = false;
+    },
+    updateSliderPosition(event) {
+      const container = event.currentTarget;
+      const rect = container.getBoundingClientRect();
+      let clientX;
+
+      // Handle both mouse and touch events
+      if (event.type.startsWith('touch')) {
+        if (event.touches.length === 0) return;
+        clientX = event.touches[0].clientX;
+      } else {
+        clientX = event.clientX;
+      }
+
+      const x = clientX - rect.left;
+      const percentage = (x / rect.width) * 100;
+
+      // Clamp between 0 and 100
+      this.sliderPosition = Math.max(0, Math.min(100, percentage));
+    },
   },
   mounted() {
     this.fetchLocation();
+    this.fetchSpecies();
   },
   beforeUnmount() {
     this.stopPlayback();
@@ -312,6 +384,38 @@ export default {
   border-radius: 8px;
 }
 
+/* Overview statistics */
+.overview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overview-item {
+  margin: 3rem;
+  width: 500px;
+  height: 125px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: var(--color-background-alt);
+  border-radius: 4px;
+}
+
+.overview-label {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  margin-bottom: 0.25rem;
+  width: 100%;
+}
+
+.overview-value {
+  font-size: 1.45rem;
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
+/* Timeline Viewer */
 .timeline-viewer {
   max-width: 1200px;
   margin: 0 auto;
@@ -343,11 +447,18 @@ export default {
   font-size: 0.95rem;
 }
 
+.habitat-loss {
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
 /* Image Container */
 .image-container {
   position: relative;
   padding: 0 !important;
   overflow: hidden;
+  border-radius: 16px;
 }
 
 .image-wrapper {
@@ -377,7 +488,7 @@ export default {
 /* Top Overlay: Date and Description */
 .top-overlay {
   padding: 0.75rem 1rem;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0.3) 85%, transparent 100%);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.6) 60%, rgba(0, 0, 0, 0.3) 85%, transparent 100%);
   position: absolute;
   top: 0;
   left: 0;
@@ -406,7 +517,7 @@ export default {
   left: 0;
   right: 0;
   padding: 0.75rem 1rem 1rem;
-  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0.3) 85%, transparent 100%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.6) 60%, rgba(0, 0, 0, 0.3) 85%, transparent 100%);
   z-index: 2;
   display: flex;
   flex-direction: column;
@@ -497,9 +608,9 @@ export default {
   color: white;
   text-align: center;
   white-space: nowrap;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
   padding: 2px 4px;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   border-radius: 3px;
 }
 
@@ -551,6 +662,150 @@ export default {
 
 .control-icon-btn:disabled:hover {
   transform: none;
+}
+
+/* Species feature */
+.impacted-species {
+  margin-top: 5rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.species-features {
+  display: flex;
+  justify-content: space-between;
+}
+
+.species-feature {
+  margin: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.species-feature img {
+  width: 150px;
+  border-radius: 100%;
+}
+
+.species-feature span {
+  margin-top: 15px;
+}
+
+/* Before/After Slider */
+.before-after-slider {
+  margin: 2rem auto;
+}
+
+.before-after-slider h3 {
+  margin: 0 0 1rem 0;
+  color: var(--color-primary);
+  font-size: 1.25rem;
+}
+
+.slider-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  cursor: ew-resize;
+  user-select: none;
+  -webkit-user-select: none;
+  border-radius: 16px;
+  background: #000;
+  aspect-ratio: 16 / 9;
+}
+
+.image-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.image-layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.after-image {
+  z-index: 1;
+}
+
+.before-image {
+  z-index: 2;
+}
+
+.image-label {
+  position: absolute;
+  top: 1rem;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 16px;
+  letter-spacing: 0.5px;
+  z-index: 10;
+}
+
+.before-label {
+  left: 1rem;
+}
+
+.after-label {
+  right: 1rem;
+}
+
+.slider-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: white;
+  z-index: 3;
+  transform: translateX(-50%);
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.handle-line {
+  flex: 1;
+  width: 100%;
+  background: white;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.handle-grip {
+  width: 48px;
+  height: 48px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.handle-grip svg {
+  width: 28px;
+  height: 28px;
+}
+
+.before-after-slider-description {
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 5rem;
 }
 
 /* Tablet and up */
@@ -637,6 +892,25 @@ export default {
     width: 22px;
     height: 22px;
   }
+
+  .before-after-slider h3 {
+    font-size: 1.5rem;
+  }
+
+  .image-label {
+    font-size: 0.95rem;
+    padding: 0.6rem 1.2rem;
+  }
+
+  .handle-grip {
+    width: 56px;
+    height: 56px;
+  }
+
+  .handle-grip svg {
+    width: 32px;
+    height: 32px;
+  }
 }
 
 /* Desktop and up */
@@ -687,6 +961,25 @@ export default {
   .control-icon-btn svg {
     width: 24px;
     height: 24px;
+  }
+
+  .before-after-slider h3 {
+    font-size: 1.75rem;
+  }
+
+  .image-label {
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .handle-grip {
+    width: 64px;
+    height: 64px;
+  }
+
+  .handle-grip svg {
+    width: 36px;
+    height: 36px;
   }
 }
 </style>

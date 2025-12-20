@@ -1,0 +1,27 @@
+{
+  "gopher-tortoise": {
+    "name": "Gopher Tortoise",
+    "image_url": "/images/species/gopher-tortoise.jpg",
+    "attribution": "Florida Fish and Wildlife Conservation Commission"
+  },
+  "american-alligator": {
+    "name": "American Alligator",
+    "image_url": "/images/species/american-alligator.jpg",
+    "attribution": "US Department of Agriculture"
+  },
+  "monarch-butterfly": {
+    "name": "Monarch Butterfly",
+    "image_url": "/images/species/monarch-butterfly.jpg",
+    "attribution": "US Department of Agriculture"
+  },
+  "painted-bunting": {
+    "name": "Painted Bunting",
+    "image_url": "/images/species/painted-bunting.jpg",
+    "attribution": "Don Faulkner"
+  },
+  "sandhill-crane": {
+    "name": "Sandhill Crane",
+    "image_url": "/images/species/sandhill-crane.jpg",
+    "attribution": "Aaron J Hill"
+  }
+}

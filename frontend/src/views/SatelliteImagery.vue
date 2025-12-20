@@ -26,12 +26,12 @@
             </div>
             <div class="overview-item">
               <span class="overview-label">Habitat Loss</span>
-              <span class="overview-value">{{ location.habitat_loss_acres }} acres</span>
+              <span class="overview-value">{{ location.habitat_loss_acres.toLocaleString('en-US') }} acres</span>
             </div>
           </div>
 
           <p class="description">{{ location.description_full }}</p>
-          <p class="habitat-loss">A total of over {{ location.habitat_loss_acres }} acres of habitat has been lost at
+          <p class="habitat-loss">A total of over {{ location.habitat_loss_acres.toLocaleString('en-US') }} acres of habitat has been lost at
             this
             location over the past 20 years.</p>
         </div>
@@ -495,7 +495,7 @@ export default {
 /* Top Overlay: Date and Description */
 .top-overlay {
   padding: 0.75rem 1rem;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.6) 60%, rgba(0, 0, 0, 0.3) 85%, transparent 100%);
+  background: linear-gradient(to bottom,  rgba(0, 0, 0, 0.6) 0%, transparent 70%);
   position: absolute;
   top: 0;
   left: 0;
@@ -509,9 +509,11 @@ export default {
   font-weight: bold;
   margin-bottom: 0.25rem;
   line-height: 1.2;
+  text-shadow: 0 0 5px black;
 }
 
 .description-display {
+  display: none; /* Not necessary? */
   font-size: 0.8rem;
   opacity: 0.95;
   line-height: 1.3;
@@ -524,11 +526,10 @@ export default {
   left: 0;
   right: 0;
   padding: 0.75rem 1rem 1rem;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.6) 60%, rgba(0, 0, 0, 0.3) 85%, transparent 100%);
-  z-index: 2;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 60%);  z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 2rem;
 }
 
 /* Progress Bar Container */
@@ -613,12 +614,12 @@ export default {
   font-size: 0.7rem;
   font-weight: 600;
   color: white;
-  text-align: center;
+  text-align: left;
   white-space: nowrap;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
   padding: 2px 4px;
-  background: rgba(0, 0, 0, 0.6);
   border-radius: 3px;
+  transform: translateY(-20px);
 }
 
 /* Playback Controls */
@@ -660,10 +661,11 @@ export default {
 .control-icon-btn:hover:not(:disabled) {
   background: white;
   transform: scale(1.1);
+  filter: grayscale();
 }
 
 .control-icon-btn:disabled {
-  opacity: 0.3;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 

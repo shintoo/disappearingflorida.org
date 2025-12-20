@@ -1,26 +1,43 @@
 #!/bin/bash
 # Script to create responsive image variants for satellite imagery
 # Requires ImageMagick or similar tool
+#
+# Usage: ./create-responsive-images.sh <directory-path>
+# Example: ./create-responsive-images.sh ../frontend/public/images/timelines/mtdora
+
+# Check if directory argument is provided
+if [ -z "$1" ]; then
+  echo "Error: No directory path provided"
+  echo "Usage: $0 <directory-path>"
+  echo "Example: $0 ../frontend/public/images/timelines/mtdora"
+  exit 1
+fi
 
 # Directory containing original images
-IMAGE_DIR="./static/images/timelines/mtdora"
+IMAGE_DIR="$1"
 
-# Image files to process
-images=(
-  "mtdora-2004-12-31.png"
-  "mtdora-2005-01-19.png"
-  "mtdora-2005-11-23.png"
-  "mtdora-2011-11-13.png"
-  "mtdora-2018-12-18.png"
-  "mtdora-2019-11-27.png"
-  "mtdora-2021-01-10.png"
-  "mtdora-2022-04-16.png"
-  "mtdora-2024-04-17.png"
-  "mtdora-2025-05-17.png"
-)
+# Check if directory exists
+if [ ! -d "$IMAGE_DIR" ]; then
+  echo "Error: Directory '$IMAGE_DIR' does not exist"
+  exit 1
+fi
+
+# Find all PNG files in the directory and store in array
+# Using while loop instead of mapfile for compatibility
+images=()
+while IFS= read -r -d '' file; do
+  images+=("$(basename "$file")")
+done < <(find "$IMAGE_DIR" -maxdepth 1 -name "*.png" -type f -print0)
+
+# Check if any PNG files were found
+if [ ${#images[@]} -eq 0 ]; then
+  echo "Error: No PNG files found in '$IMAGE_DIR'"
+  exit 1
+fi
 
 echo "Creating responsive image variants..."
-echo "Original image sizes: 3.8MB - 4.6MB PNG"
+echo "Processing directory: $IMAGE_DIR"
+echo "Found ${#images[@]} PNG file(s)"
 echo ""
 
 for img in "${images[@]}"; do

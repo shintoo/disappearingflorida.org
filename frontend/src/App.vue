@@ -190,6 +190,7 @@ body {
   opacity: 0;
   transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.4s ease, background-color 0.3s ease;
   z-index: 100;
+  pointer-events: none;
 }
 
 .nav-menu.is-open {
@@ -197,6 +198,7 @@ body {
   max-height: 400px;
   opacity: 1;
   padding: 1rem 0;
+  pointer-events: auto;
 }
 
 .nav-menu li {
@@ -262,6 +264,7 @@ body {
     opacity: 1.0;
     background: transparent;
     overflow: unset;
+    pointer-events: auto;
   }
 
   .nav-menu li {

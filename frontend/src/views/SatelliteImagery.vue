@@ -387,17 +387,19 @@ export default {
 /* Overview statistics */
 .overview {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 2rem;
 }
 
 .overview-item {
-  margin: 3rem;
-  width: 500px;
-  height: 125px;
+  width: 100%;
+  height: 75px;
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  padding: 10px;
+  margin: 5px;
   background-color: var(--color-background-alt);
   border-radius: 4px;
 }
@@ -410,9 +412,10 @@ export default {
 }
 
 .overview-value {
-  font-size: 1.45rem;
   font-weight: bold;
   color: var(--color-primary);
+  align-self: flex-end;
+  font-size: 1.25rem;
 }
 
 /* Timeline Viewer */
@@ -667,6 +670,7 @@ export default {
 /* Species feature */
 .impacted-species {
   margin-top: 5rem;
+  margin-bottom: 2rem;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -674,36 +678,46 @@ export default {
 }
 
 .species-features {
+  /* Mobile: horizontal scrolling carousel */
   display: flex;
-  justify-content: space-between;
-  /* Mobile: horizontal scroll */
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x mandatory;
   gap: 1.5rem;
   padding: 0 1rem;
-  /* Start scrolled to the left */
-  scroll-padding-left: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  width: 100%;
+  /* Hide scrollbar but keep functionality */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.species-features::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Opera */
 }
 
 .species-feature {
-  margin: 3rem;
+  /* Mobile: each item is a carousel card */
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Mobile: prevent shrinking for scroll */
-  flex-shrink: 0;
-  scroll-snap-align: start;
+  scroll-snap-align: center;
+  padding: 2rem 1rem;
+  min-width: 200px;
 }
 
 .species-feature img {
   width: 150px;
+  height: 150px;
+  object-fit: cover;
   border-radius: 100%;
 }
 
 .species-feature span {
   margin-top: 15px;
+  text-align: center;
 }
 
 /* Before/After Slider */
@@ -726,7 +740,7 @@ export default {
   -webkit-user-select: none;
   border-radius: 16px;
   background: #000;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1 / 1;
 }
 
 .image-layer {
@@ -821,11 +835,20 @@ export default {
 
 /* Tablet and up */
 @media (min-width: 768px) {
-  .species-features {
-    /* Restore centered layout for tablet+ */
-    overflow-x: visible;
-    justify-content: center;
-    flex-wrap: wrap;
+  .overview {
+    flex-direction: row;
+  }
+
+  .overview-item {
+    margin: 2rem;
+  }
+
+  .overview-value {
+    align-self: flex-start;
+  }
+
+  .slider-container {
+    aspect-ratio: 16 / 9;
   }
 
   .subtitle {
@@ -933,6 +956,18 @@ export default {
   .handle-grip svg {
     width: 32px;
     height: 32px;
+  }
+
+  /* Desktop: static row, no scrolling */
+  .species-features {
+    overflow-x: visible;
+    scroll-snap-type: none;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .species-feature {
+    scroll-snap-align: none;
   }
 }
 

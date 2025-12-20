@@ -205,7 +205,7 @@ export default {
         this.loading = true;
         this.error = null;
         // For MVP, we're hardcoding the DeBary/Mt Dora location
-        const locationId = 'the-villages';
+        const locationId = 'mtdora';
         const response = await fetch(`/data/locations/${locationId}.json`);
         if (!response.ok) {
           throw new Error(`Location ${locationId} not found`);
@@ -590,7 +590,7 @@ export default {
 /* Year Markers */
 .year-markers {
   position: absolute;
-  bottom: 12px;
+  bottom: 16px;
   left: 0;
   right: 0;
   pointer-events: none;
@@ -602,15 +602,31 @@ export default {
   opacity: 1;
 }
 
+/* Hide all but first and last on mobile. Show all on desktop. */
 .year-marker {
   position: absolute;
-  transform: translateX(-50%);
   pointer-events: auto;
   cursor: pointer;
+  visibility: hidden;
 }
 
+.year-marker:hover,
+.year-marker:first-child,
+.year-marker:last-child {
+  visibility: visible;
+}
+
+.year-marker:last-child {
+  transform: translateX(-100%);
+}
+
+.year-marker:first-child {
+  transform: translateX(0)
+}
+
+
 .year-label {
-  font-size: 0.7rem;
+  font-size: 1rem;
   font-weight: 600;
   color: white;
   text-align: left;
@@ -620,6 +636,7 @@ export default {
   border-radius: 3px;
   transform: translateY(-20px);
 }
+
 
 /* Playback Controls */
 .playback-controls {
@@ -928,8 +945,13 @@ export default {
     bottom: 14px;
   }
 
+  .year-marker {
+    visibility: visible;
+    transform: translateX(-50%);
+  }
+
   .year-label {
-    font-size: 0.75rem;
+    font-size: 2rem;
   }
 
   .control-icon-btn {
@@ -1015,7 +1037,7 @@ export default {
   }
 
   .year-label {
-    font-size: 0.8rem;
+    font-size: 1rem;
     padding: 3px 6px;
   }
 

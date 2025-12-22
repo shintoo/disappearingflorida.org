@@ -17,6 +17,12 @@ const routes = [
     component: SatelliteImagery,
   },
   {
+    path: '/satellite-imagery/:locationId',
+    name: 'SatelliteImageryLocation',
+    component: SatelliteImagery,
+    props: true
+  },
+  {
     path: '/density-calculator',
     name: 'DensityCalculator',
     component: DensityCalculator,

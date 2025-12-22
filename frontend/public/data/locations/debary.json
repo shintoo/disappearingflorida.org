@@ -1,0 +1,77 @@
+{
+  "id": "debary",
+  "name": "DeBary",
+  "county": "Volusia",
+  "ecosystem_type": "Pine Flatwoods & Wetlands",
+  "latitude": 28.8717,
+  "longitude": -81.3245,
+  "thumbnail_url": "/images/timelines/debary/2025-08-05-debary.png",
+  "description_short": "Large-scale suburban development replacing native pine flatwoods and wetland habitats in DeBary.",
+  "description_full": "Developed by Ryan Homes and Lennar, the Rivington neighborhood is the result of the removal of 250 acres of habitat along the St. Johns River in Debary. This neighborhood is one third mile away from the DeBary SunRail station.",
+  "street_view": {
+    "description": "A before-and-after view of the Rivington neighborhood can be seen below.",
+    "before": {
+      "date": "July 2019",
+      "image_url": "/images/timelines/debary/debary-streetview-2019-07.png"
+    },
+    "after": {
+      "date": "April 2025",
+      "image_url": "/images/timelines/debary/debary-streetview-2025-04.png"
+    }
+  },
+  "time_points": [
+    {
+      "year": 2019,
+      "date": "2019-11-27",
+      "image_url": "/images/timelines/debary/2019-11-27-debary.png",
+      "image_url_mobile": "/images/timelines/debary/2019-11-27-debary-mobile.webp",
+      "image_url_tablet": "/images/timelines/debary/2019-11-27-debary-tablet.webp",
+      "image_url_desktop": "/images/timelines/debary/2019-11-27-debary-desktop.webp",
+      "description": "Before development - intact pine flatwoods and wetlands"
+    },
+    {
+      "year": 2021,
+      "date": "2021-05-08",
+      "image_url": "/images/timelines/debary/2021-05-08-debary.png",
+      "image_url_mobile": "/images/timelines/debary/2021-05-08-debary-mobile.webp",
+      "image_url_tablet": "/images/timelines/debary/2021-05-08-debary-tablet.webp",
+      "image_url_desktop": "/images/timelines/debary/2021-05-08-debary-desktop.webp",
+      "description": "Initial clearing and infrastructure development begins"
+    },
+    {
+      "year": 2021,
+      "date": "2021-12-13",
+      "image_url": "/images/timelines/debary/2021-12-13-debary.png",
+      "image_url_mobile": "/images/timelines/debary/2021-12-13-debary-mobile.webp",
+      "image_url_tablet": "/images/timelines/debary/2021-12-13-debary-tablet.webp",
+      "image_url_desktop": "/images/timelines/debary/2021-12-13-debary-desktop.webp",
+      "description": "Extensive land clearing and road construction underway"
+    },
+    {
+      "year": 2023,
+      "date": "2023-02-07",
+      "image_url": "/images/timelines/debary/2023-02-07-debary.png",
+      "image_url_mobile": "/images/timelines/debary/2023-02-07-debary-mobile.webp",
+      "image_url_tablet": "/images/timelines/debary/2023-02-07-debary-tablet.webp",
+      "image_url_desktop": "/images/timelines/debary/2023-02-07-debary-desktop.webp",
+      "description": "Housing construction progressing, most habitat cleared"
+    },
+    {
+      "year": 2025,
+      "date": "2025-08-05",
+      "image_url": "/images/timelines/debary/2025-08-05-debary.png",
+      "image_url_mobile": "/images/timelines/debary/2025-08-05-debary-mobile.webp",
+      "image_url_tablet": "/images/timelines/debary/2025-08-05-debary-tablet.webp",
+      "image_url_desktop": "/images/timelines/debary/2025-08-05-debary-desktop.webp",
+      "description": "Development largely complete - natural habitat replaced by suburban sprawl"
+    }
+  ],
+  "impacted_species": [
+    "florida-scrub-jay",
+    "sandhill-crane",
+    "painted-bunting",
+    "monarch-butterfly",
+    "gopher-tortoise"
+  ],
+  "habitat_loss_acres": 250
+}

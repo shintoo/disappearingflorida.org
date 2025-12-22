@@ -1,42 +1,46 @@
 <template>
   <div class="satellite-imagery-page">
-    <div v-if="loading" class="loading">
-      Loading location data...
-    </div>
+    <!-- Location Selection Map -->
 
-    <div v-else-if="error" class="error-message">
+    <div v-if="error" class="error-message">
       {{ error }}
     </div>
 
-    <div v-else-if="location">
+    <div class="header">
+      <FloridaMap v-if="availableLocations.length > 0" :locations="availableLocations"
+        :current-location-id="currentLocationId" @location-selected="handleLocationSelected" />
 
-      <div class="timeline-viewer">
-        <!-- Location Info -->
-        <div class="location-info card">
+      <div class="overview" v-if="location">
+        <div>
           <h2>{{ location.name }}</h2>
-
-          <div class="overview">
-            <div class="overview-item">
-              <span class="overview-label">County</span>
-              <span class="overview-value">{{ location.county }}</span>
-            </div>
-            <div class="overview-item">
-              <span class="overview-label">Ecosystem</span>
-              <span class="overview-value">{{ location.ecosystem_type }}</span>
-            </div>
-            <div class="overview-item">
-              <span class="overview-label">Habitat Loss</span>
-              <span class="overview-value">{{ location.habitat_loss_acres.toLocaleString('en-US') }} acres</span>
-            </div>
-          </div>
-
-          <p class="description">{{ location.description_full }}</p>
-          <p class="habitat-loss">A total of over {{ location.habitat_loss_acres.toLocaleString('en-US') }} acres has been lost to development at
-            this location over the past 20 years.</p>
         </div>
 
+        <div class="overview-items">
+          <div class="overview-item">
+            <span class="overview-label">Counties</span>
+            <span class="overview-value">{{ location.county }}</span>
+          </div>
+          <div class="overview-item">
+            <span class="overview-label">Ecosystems</span>
+            <span class="overview-value">{{ location.ecosystem_type }}</span>
+          </div>
+          <div class="overview-item">
+            <span class="overview-label">Development Footprint</span>
+            <span class="overview-value">{{ location.habitat_loss_acres.toLocaleString('en-US') }} acres</span>
+          </div>
+        </div>
+        <p class="description">{{ location.description_full }}</p>
+        <p class="habitat-loss">A total of over {{ location.habitat_loss_acres.toLocaleString('en-US') }} acres has been
+          lost to development at
+          this location over the past 20 years.</p>
+      </div>
+    </div>
+
+
+    <div v-if="location">
+      <div class="timeline-viewer">
         <!-- Image Display with Timeline Controls Overlay -->
-        <div class="image-container card">
+        <div class="image-container">
           <div class="image-wrapper">
             <img v-if="currentTimePoint.image_url_mobile" :srcset="`
               ${currentTimePoint.image_url_mobile} 640w,
@@ -160,12 +164,26 @@
 </template>
 
 <script>
+import FloridaMap from '../components/FloridaMap.vue';
+import { fetchAllLocationsMetadata, fetchLocationById } from '../utils/locationsIndex.js';
+
 export default {
   name: 'SatelliteImagery',
+  components: {
+    FloridaMap
+  },
+  props: {
+    locationId: {
+      type: String,
+      default: null
+    }
+  },
   data() {
     return {
       location: null,
       species: null,
+      availableLocations: [],
+      currentLocationId: null,
       loading: true,
       error: null,
       currentIndex: 0,
@@ -200,23 +218,33 @@ export default {
     }
   },
   methods: {
-    async fetchLocation() {
+    async fetchAvailableLocations() {
+      try {
+        this.availableLocations = await fetchAllLocationsMetadata();
+      } catch (err) {
+        console.error('Error fetching available locations:', err);
+      }
+    },
+
+    async fetchLocation(locationId) {
       try {
         this.loading = true;
         this.error = null;
-        // For MVP, we're hardcoding the DeBary/Mt Dora location
-        const locationId = 'mtdora';
-        const response = await fetch(`/data/locations/${locationId}.json`);
-        if (!response.ok) {
-          throw new Error(`Location ${locationId} not found`);
-        }
-        this.location = await response.json();
+        this.location = await fetchLocationById(locationId);
+        this.currentLocationId = locationId;
+        // Reset playback state when changing locations
+        this.currentIndex = 0;
+        this.stopPlayback();
       } catch (err) {
         this.error = 'Failed to load location data. Please try again later.';
         console.error('Error fetching location:', err);
       } finally {
         this.loading = false;
       }
+    },
+    handleLocationSelected(locationId) {
+      // Update route to the selected location
+      this.$router.push({ name: 'SatelliteImageryLocation', params: { locationId } });
     },
     async fetchSpecies() {
       try {
@@ -353,18 +381,48 @@ export default {
       this.sliderPosition = Math.max(0, Math.min(100, percentage));
     },
   },
-  mounted() {
-    this.fetchLocation();
-    this.fetchSpecies();
+  async mounted() {
+    // Fetch available locations for the map
+    await this.fetchAvailableLocations();
+
+    // Determine which location to load
+    const targetLocationId = this.locationId || this.$route.params.locationId || 'mtdora';
+
+    // Fetch the location data and species data
+    await Promise.all([
+      this.fetchLocation(targetLocationId),
+      this.fetchSpecies()
+    ]);
   },
   beforeUnmount() {
     this.stopPlayback();
     this.clearHideControlsTimer();
   },
+  watch: {
+    // Watch for route changes to update the displayed location
+    '$route.params.locationId': {
+      handler(newLocationId) {
+        if (newLocationId && newLocationId !== this.currentLocationId) {
+          this.fetchLocation(newLocationId);
+        }
+      }
+    }
+  },
 };
 </script>
 
 <style scoped>
+
+h2 {
+  font-size: 3rem;
+}
+
+.satellite-imagery-page {
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
 .subtitle {
   color: var(--color-text-light);
   /* Mobile-first */
@@ -387,11 +445,16 @@ export default {
   border-radius: 8px;
 }
 
-/* Overview statistics */
-.overview {
+.header {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+}
+
+/* Overview items */
+.overview-items {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
 }
@@ -423,7 +486,6 @@ export default {
 
 /* Timeline Viewer */
 .timeline-viewer {
-  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -454,9 +516,9 @@ export default {
 }
 
 .habitat-loss {
-  margin-top: 2rem;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   text-align: center;
+  margin: 3rem 0.5rem;
 }
 
 /* Image Container */
@@ -473,9 +535,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Mobile: portrait aspect ratio for rotated images */
   aspect-ratio: 9 / 16;
   min-height: 200px;
+  max-height: 90vh;
 }
 
 .satellite-image {
@@ -488,8 +550,12 @@ export default {
   /* Make the rotated image fill the portrait container */
   height: 100%;
   width: auto;
-  object-fit: contain;
+  object-fit: container;
 }
+
+/* For some reason, the timelapse viewer and the "x acres has been lost" text
+  is not wrapping/is stretching way beyond the viewport. Fix that so you can push
+  your cool map pin selector thingy!!
 
 /* Top Overlay: Date and Description */
 .top-overlay {
@@ -860,12 +926,17 @@ export default {
 
 /* Tablet and up */
 @media (min-width: 768px) {
-  .overview {
+  .header {
+    width: 95%;
     flex-direction: row;
   }
 
-  .overview-item {
-    margin: 2rem;
+  .overview {
+    margin-right: 3rem;
+  }
+
+  .overview-items {
+    flex-direction: row;
   }
 
   .overview-value {
@@ -951,7 +1022,7 @@ export default {
   }
 
   .year-label {
-    font-size: 2rem;
+    font-size: 1rem;
   }
 
   .control-icon-btn {

@@ -179,7 +179,7 @@ Examples:
   python generate_location_json.py /path/to/images \\
     --id debary \\
     --name "DeBary" \\
-    --county "Volusia County" \\
+    --county "Volusia" \\
     --lat 28.8785 \\
     --lon -81.3248 \\
     --ecosystem "Scrub" \\

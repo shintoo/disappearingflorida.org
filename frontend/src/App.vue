@@ -21,7 +21,7 @@
         <!-- Navigation menu with mobile toggle -->
         <ul class="nav-menu" :class="{ 'is-open': mobileMenuOpen }">
           <li><router-link to="/satellite-imagery" @click="closeMobileMenu">Satellite Imagery</router-link></li>
-          <li><router-link to="/species" @click="closeMobileMenu">Wildlife Impact</router-link></li>
+          <!--<li><router-link to="/species" @click="closeMobileMenu">Wildlife Impact</router-link></li>-->
           <li><router-link to="/density-calculator" @click="closeMobileMenu">Building Better</router-link></li>
           <li><router-link to="/about" @click="closeMobileMenu">About</router-link></li>
         </ul>
@@ -101,7 +101,6 @@ body {
   color: white !important;
   padding: 1rem 0;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -113,6 +112,7 @@ body {
 .main-nav.is-transparent {
   background-color: transparent;
   box-shadow: none;
+  position: absolute; /* Want to show landing image under nav on homepage */
 }
 
 .main-nav.is-opaque {

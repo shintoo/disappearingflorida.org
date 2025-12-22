@@ -1,11 +1,11 @@
 {
   "id": "the-villages",
   "name": "The Villages",
-  "county": "Sumter, Marion, Lake Counties",
+  "county": "Sumter, Marion, Lake",
   "developers": [],
   "ecosystem_type": "Longleaf Pine Forest, Wetland",
-  "latitude": 0.0,
-  "longitude": 0.0,
+  "latitude": 28.9175,
+  "longitude": -81.9732,
   "thumbnail_url": "/images/timelines/the-villages/1985-12-31.png",
   "description_full": "The Villages is one of the fastest growing developments in Central Florida. A retirement community, it was the top-selling master-planned community in the United States until 2019, with over 24,400 homes sold during that time. Much of the land that has now been developed was previously agricultural, serving as orange groves and cattle ranches, as well as untouched wild land including longleaf pine forests and wetlands. The Villages is home to 50 golf courses, and home sizes that range from 1,400 to 5,900 square feet.",
   "street_view": {

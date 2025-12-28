@@ -47,9 +47,9 @@
               ${currentTimePoint.image_url_tablet || currentTimePoint.image_url} 1024w,
               ${currentTimePoint.image_url_desktop || currentTimePoint.image_url} 1920w
             `" :sizes="`(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1200px`" :src="currentTimePoint.image_url"
-              :alt="`Satellite imagery from ${currentTimePoint.date}`" class="satellite-image" loading="lazy" />
+              :alt="`Satellite imagery from ${currentTimePoint.date}`" class="satellite-image" />
             <img v-else :src="currentTimePoint.image_url" :alt="`Satellite imagery from ${currentTimePoint.date}`"
-              class="satellite-image" loading="lazy" />
+              class="satellite-image" />
           </div>
 
           <!-- Top Overlay: Date and Description -->
@@ -195,6 +195,9 @@ export default {
       // Before/After slider state
       sliderPosition: 50,
       isDragging: false,
+      // Image preloading
+      imagesPreloaded: false,
+      preloadedImages: [],
     };
   },
   computed: {
@@ -235,6 +238,11 @@ export default {
         // Reset playback state when changing locations
         this.currentIndex = 0;
         this.stopPlayback();
+        // Reset preload state
+        this.imagesPreloaded = false;
+        this.preloadedImages = [];
+        // Start preloading images for this location
+        this.preloadImages();
       } catch (err) {
         this.error = 'Failed to load location data. Please try again later.';
         console.error('Error fetching location:', err);
@@ -245,6 +253,38 @@ export default {
     handleLocationSelected(locationId) {
       // Update route to the selected location
       this.$router.push({ name: 'SatelliteImageryLocation', params: { locationId } });
+    },
+    preloadImages() {
+      if (!this.location || !this.location.time_points) return;
+
+      // Preload all images in the timeline
+      this.location.time_points.forEach((timePoint) => {
+        // Preload the main image
+        const img = new Image();
+        img.src = timePoint.image_url;
+        this.preloadedImages.push(img);
+
+        // Preload responsive images if they exist
+        if (timePoint.image_url_mobile) {
+          const mobileImg = new Image();
+          mobileImg.src = timePoint.image_url_mobile;
+          this.preloadedImages.push(mobileImg);
+        }
+        if (timePoint.image_url_tablet) {
+          const tabletImg = new Image();
+          tabletImg.src = timePoint.image_url_tablet;
+          this.preloadedImages.push(tabletImg);
+        }
+        if (timePoint.image_url_desktop) {
+          const desktopImg = new Image();
+          desktopImg.src = timePoint.image_url_desktop;
+          this.preloadedImages.push(desktopImg);
+        }
+      });
+
+      // Mark as preloaded once all image objects are created
+      // (they will continue loading in the background)
+      this.imagesPreloaded = true;
     },
     async fetchSpecies() {
       try {

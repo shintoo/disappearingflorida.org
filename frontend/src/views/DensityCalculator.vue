@@ -1,243 +1,207 @@
 <template>
   <div class="density-calculator-page">
-    <h1>Density Calculator</h1>
+    <header class="page-header">
+      <h1>Density Calculator</h1>
+      <p class="subtitle">
+        Explore how different development patterns affect land use, housing capacity, and environmental impact.
+      </p>
+    </header>
 
-    <div class="card">
-      <div class="calculator">
-        <h3>Calculate Land Impact</h3>
+    <div class="calculator-layout">
+      <aside class="controls-panel">
+        <div class="panel-content">
+          <DensityInputPanel
+            v-model:landSize="landSize"
+            v-model:population="population"
+            v-model:zones="zones"
+          />
 
-        <div class="input-group">
-          <label for="population">Population to House:</label>
-          <input
-            type="number"
-            id="population"
-            v-model.number="population"
-            min="100"
-            step="100"
+          <DensityResults
+            :results="calculatedResults"
+            :landSize="landSize"
           />
         </div>
+      </aside>
 
-        <div class="input-group">
-          <label for="pattern">Development Pattern:</label>
-          <select id="pattern" v-model="selectedPattern">
-            <option value="">-- Select Pattern --</option>
-            <option v-for="pattern in patterns" :key="pattern.id" :value="pattern.id">
-              {{ pattern.name }}
-            </option>
-          </select>
-        </div>
-
-        <button @click="calculate" class="btn" :disabled="!canCalculate">
-          Calculate
-        </button>
-
-        <div v-if="result" class="results">
-          <h3>Results</h3>
-          <div class="result-grid">
-            <div class="result-item">
-              <span class="result-label">Total Acres Needed:</span>
-              <span class="result-value">{{ result.total_acres }}</span>
-            </div>
-            <div class="result-item">
-              <span class="result-label">Football Fields:</span>
-              <span class="result-value">{{ result.comparison_football_fields }}</span>
-            </div>
-            <div class="result-item">
-              <span class="result-label">CO₂ Emissions/Year:</span>
-              <span class="result-value">{{ result.estimated_co2_tons_per_year.toLocaleString() }} tons</span>
-            </div>
-            <div class="result-item">
-              <span class="result-label">Housing Units:</span>
-              <span class="result-value">{{ result.total_units_needed }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <main class="visualization-panel">
+        <CityVisualization
+          :zones="zones"
+          :landSize="landSize"
+          :population="population"
+          :peoplePerUnit="2.5"
+        />
+      </main>
     </div>
   </div>
 </template>
 
 <script>
-import { calculateDensityImpact } from '@/utils/densityCalculations'
+import { ref, computed, onMounted } from 'vue';
+import DensityInputPanel from '@/components/density-calculator/DensityInputPanel.vue';
+import DensityResults from '@/components/density-calculator/DensityResults.vue';
+import CityVisualization from '@/components/density-calculator/CityVisualization.vue';
+import { calculateZonedDensityImpact, defaultPatterns } from '@/utils/densityCalculations';
 
 export default {
   name: 'DensityCalculator',
-  data() {
+  components: {
+    DensityInputPanel,
+    DensityResults,
+    CityVisualization
+  },
+  setup() {
+    // State
+    const population = ref(25000);
+    const landSize = ref(500);
+    const patterns = ref([]);
+
+    // Default zone distribution - mixed development
+    const zones = ref([
+      { type: 'high-rise-urban', percentage: 10 },
+      { type: 'mixed-use-midrise', percentage: 25 },
+      { type: 'townhomes', percentage: 30 },
+      { type: 'suburban-sprawl', percentage: 35 }
+    ]);
+
+    // Load density patterns from JSON
+    const loadPatterns = async () => {
+      try {
+        const response = await fetch('/data/density-patterns.json');
+        if (!response.ok) throw new Error('Failed to load patterns');
+        patterns.value = await response.json();
+      } catch (error) {
+        console.warn('Using default patterns:', error);
+        patterns.value = defaultPatterns;
+      }
+    };
+
+    // Computed results based on current inputs
+    const calculatedResults = computed(() => {
+      if (patterns.value.length === 0) return null;
+      if (population.value <= 0) return null;
+
+      return calculateZonedDensityImpact(
+        population.value,
+        2.5, // people per unit
+        zones.value,
+        patterns.value
+      );
+    });
+
+    onMounted(() => {
+      loadPatterns();
+    });
+
     return {
-      population: 10000,
-      selectedPattern: '',
-      patterns: [],
-      result: null,
-    }
-  },
-  computed: {
-    canCalculate() {
-      return this.population > 0 && this.selectedPattern !== ''
-    },
-  },
-  async mounted() {
-    await this.loadPatterns()
-  },
-  methods: {
-    async loadPatterns() {
-      try {
-        const response = await fetch('/data/density-patterns.json')
-        if (!response.ok) {
-          throw new Error('Failed to load density patterns')
-        }
-        this.patterns = await response.json()
-      } catch (error) {
-        console.error('Error loading patterns:', error)
-      }
-    },
-    calculate() {
-      if (!this.canCalculate) return
-
-      const selectedPatternData = this.patterns.find(
-        p => p.id === this.selectedPattern
-      )
-
-      if (!selectedPatternData) {
-        console.error('Selected pattern not found')
-        return
-      }
-
-      try {
-        const calculationResult = calculateDensityImpact(
-          this.population,
-          2.5, // people_per_unit
-          selectedPatternData
-        )
-
-        // Map the result to match the template's expected field names
-        this.result = {
-          total_acres: calculationResult.total_acres,
-          comparison_football_fields: calculationResult.football_fields,
-          estimated_co2_tons_per_year: calculationResult.co2_tons_per_year,
-          total_units_needed: calculationResult.total_units,
-        }
-      } catch (error) {
-        console.error('Error calculating:', error)
-      }
-    },
-  },
-}
+      population,
+      landSize,
+      zones,
+      calculatedResults
+    };
+  }
+};
 </script>
 
 <style scoped>
+.density-calculator-page {
+  padding-top: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 2rem;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  margin: 0 0 0.5rem 0;
+}
+
 .subtitle {
   color: var(--color-text-light);
-  /* Mobile-first */
   font-size: 1rem;
-  margin-bottom: 1.5rem;
-  padding: 0 1rem;
-  text-align: center;
-}
-
-.calculator {
   max-width: 600px;
   margin: 0 auto;
+  line-height: 1.5;
 }
 
-.input-group {
-  margin-bottom: 1.25rem;
-}
-
-.input-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  font-size: 0.95rem;
-}
-
-.input-group input,
-.input-group select {
-  width: 100%;
-  /* Mobile: larger touch target */
-  padding: 0.875rem;
-  min-height: 44px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  /* Prevent iOS zoom */
-  font-size: 16px;
-}
-
-.results {
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 2px solid var(--color-primary);
-}
-
-.result-grid {
-  display: grid;
-  /* Mobile: single column */
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.result-item {
+.calculator-layout {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
-  background-color: var(--color-background-alt);
-  border-radius: 4px;
+  gap: 1.5rem;
 }
 
-.result-label {
-  font-size: 0.85rem;
-  color: var(--color-text-light);
-  margin-bottom: 0.25rem;
+.controls-panel {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
 }
 
-.result-value {
-  font-size: 1.35rem;
-  font-weight: bold;
-  color: var(--color-primary);
+.panel-content {
+  padding: 1.5rem;
 }
 
-/* Tablet and up */
+.visualization-panel {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  min-height: 350px;
+}
+
+/* Tablet: 3D on top */
 @media (min-width: 768px) {
+  .calculator-layout {
+    flex-direction: column-reverse;
+  }
+
+  .visualization-panel {
+    min-height: 450px;
+  }
+
   .subtitle {
-    font-size: 1.25rem;
-    margin-bottom: 2rem;
-  }
-
-  .input-group {
-    margin-bottom: 1.5rem;
-  }
-
-  .input-group label {
-    font-size: 1rem;
-  }
-
-  .input-group input,
-  .input-group select {
-    padding: 0.75rem;
-  }
-
-  .results {
-    margin-top: 2rem;
-    padding-top: 2rem;
-  }
-
-  .result-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .result-value {
-    font-size: 1.5rem;
-  }
-
-  .result-label {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
   }
 }
 
-/* Desktop - 4 columns if space allows */
+/* Desktop: side by side */
 @media (min-width: 1024px) {
-  .result-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  .calculator-layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .controls-panel {
+    flex: 0 0 380px;
+    position: sticky;
+    top: 5rem;
+    max-height: calc(100vh - 6rem);
+    overflow-y: auto;
+  }
+
+  .visualization-panel {
+    flex: 1;
+    min-height: 600px;
+  }
+
+  .page-header {
+    margin-bottom: 2.5rem;
+  }
+}
+
+/* Large desktop */
+@media (min-width: 1200px) {
+  .controls-panel {
+    flex: 0 0 420px;
+  }
+
+  .visualization-panel {
+    min-height: 650px;
   }
 }
 </style>

@@ -22,7 +22,7 @@
         <ul class="nav-menu" :class="{ 'is-open': mobileMenuOpen }">
           <li><router-link to="/satellite-imagery" @click="closeMobileMenu">Satellite Imagery</router-link></li>
           <!--<li><router-link to="/species" @click="closeMobileMenu">Wildlife Impact</router-link></li>-->
-          <!--<li><router-link to="/density-calculator" @click="closeMobileMenu">Building Better</router-link></li>-->
+          <li><router-link to="/density-calculator" @click="closeMobileMenu">Building Better</router-link></li>
           <li class="take-action"><router-link to="/take-action" @click="closeMobileMenu">Take Action</router-link></li>
           <li><router-link to="/about" @click="closeMobileMenu">About</router-link></li>
         </ul>

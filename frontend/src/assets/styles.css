@@ -62,20 +62,12 @@ h1, h2 {
 .satellite-imagery-page,
 .species-page,
 .about-page {
-  padding-top: 5rem; /* Account for fixed navbar */
+  padding-top: 3rem; /* Account for fixed navbar */
   max-width: 1200px;
   margin: 0 auto;
   padding-left: 1rem;
   padding-right: 1rem;
   padding-bottom: 2rem;
-}
-
-@media (min-width: 768px) {
-  .density-calculator-page,
-  .satellite-imagery-page,
-  .species-page {
-    padding-top: 6rem;
-  }
 }
 
 /* Utility classes */
@@ -131,6 +123,10 @@ h1, h2 {
   padding: 1.5rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   margin-bottom: 1.5rem;
+}
+
+h1 {
+  font-size: 3rem;
 }
 
 /* Desktop refinement */

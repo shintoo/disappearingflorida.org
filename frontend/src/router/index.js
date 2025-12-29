@@ -4,6 +4,7 @@ import SatelliteImagery from '../views/SatelliteImagery.vue'
 import DensityCalculator from '../views/DensityCalculator.vue'
 import SpeciesList from '../views/SpeciesList.vue'
 import About from '../views/About.vue'
+import TakeAction from '../views/TakeAction.vue'
 
 const routes = [
   {
@@ -36,6 +37,11 @@ const routes = [
     path: '/about',
     name: 'About',
     component: About,
+  },
+  {
+    path: '/take-action',
+    name: 'TakeAction',
+    component: TakeAction,
   },
 ]
 

@@ -1,7 +1,6 @@
 <template>
   <div class="density-calculator-page">
     <h1>Density Calculator</h1>
-    <p class="subtitle">Compare land use between different development patterns</p>
 
     <div class="card">
       <div class="calculator">

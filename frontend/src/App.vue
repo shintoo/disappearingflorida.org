@@ -22,7 +22,8 @@
         <ul class="nav-menu" :class="{ 'is-open': mobileMenuOpen }">
           <li><router-link to="/satellite-imagery" @click="closeMobileMenu">Satellite Imagery</router-link></li>
           <!--<li><router-link to="/species" @click="closeMobileMenu">Wildlife Impact</router-link></li>-->
-          <li><router-link to="/density-calculator" @click="closeMobileMenu">Building Better</router-link></li>
+          <!--<li><router-link to="/density-calculator" @click="closeMobileMenu">Building Better</router-link></li>-->
+          <li class="take-action"><router-link to="/take-action" @click="closeMobileMenu">Take Action</router-link></li>
           <li><router-link to="/about" @click="closeMobileMenu">About</router-link></li>
         </ul>
       </div>
@@ -33,7 +34,32 @@
     </main>
 
     <footer class="site-footer">
-      <p>&copy; 2025 Disappearing Florida</p>
+      <div class="footer-container">
+        <div class="footer-section footer-about">
+          <h3>Disappearing Florida</h3>
+          <p>Visualizing habitat destruction from suburban sprawl and advocating for smarter development.</p>
+        </div>
+
+        <div class="footer-section footer-links">
+          <h4>Explore</h4>
+          <ul>
+            <li><router-link to="/satellite-imagery">Satellite Imagery</router-link></li>
+            <li><router-link to="/density-calculator">Building Better</router-link></li>
+            <li><router-link to="/take-action">Take Action</router-link></li>
+          </ul>
+        </div>
+
+        <div class="footer-section footer-info">
+          <h4>Learn More</h4>
+          <ul>
+            <li><router-link to="/about">About This Project</router-link></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 Disappearing Florida</p>
+      </div>
     </footer>
   </div>
 </template>
@@ -244,6 +270,13 @@ body {
   opacity: 1.0;
 }
 
+.take-action {
+  background: var(--color--highlight);
+  color: black;
+  padding: 0 .65rem;
+  border-radius: 16px;
+}
+
 /* Tablet breakpoint - show horizontal menu */
 @media (min-width: 768px) {
   .site-title a {
@@ -291,9 +324,80 @@ body {
 .site-footer {
   background-color: var(--color-primary);
   color: white;
-  text-align: center;
-  padding: 2rem;
-  height: 15rem;
   margin-top: 4rem;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 2rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+.footer-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.footer-section h4 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  opacity: 0.95;
+}
+
+.footer-section p {
+  opacity: 0.85;
+  line-height: 1.6;
+  max-width: 400px;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 0.75rem;
+}
+
+.footer-section a {
+  color: white;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+  display: inline-block;
+}
+
+.footer-section a:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.footer-bottom p {
+  opacity: 0.7;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .footer-container {
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .footer-section p {
+    max-width: none;
+  }
 }
 </style>

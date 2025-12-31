@@ -25,25 +25,33 @@
             <p>See decades of habitat transformation in Florida's most affected areas</p>
             <router-link to="/satellite-imagery" class="btn">Explore</router-link>
           </div>
-          <div class="tool-card">
+          <!--<div class="tool-card">
             <h3>Species Impact</h3>
             <p>Learn about wildlife affected by habitat loss</p>
             <router-link to="/species" class="btn">Discover</router-link>
-          </div>
+          </div>-->
           <div class="tool-card">
             <h3>Build Better</h3>
             <p>Compare land use between sprawl and smarter development</p>
-            <router-link to="/density-calculator" class="btn">Calculate</router-link>
+            <router-link to="/density-calculator" class="btn">Simulate</router-link>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- Call to Action Section -->
+    <CallToAction />
   </div>
 </template>
 
 <script>
+import CallToAction from '../components/CallToAction.vue';
+
 export default {
   name: 'Home',
+  components: {
+    CallToAction
+  },
   mounted() {
     window.addEventListener('scroll', this.handleParallax)
   },

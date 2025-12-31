@@ -160,20 +160,21 @@
         </div>
       </div>
     </div>
-    <div>
-      Call to action section goes here, and should link to the 
-    </div>
+    <!-- Call to Action Section -->
+    <CallToAction />
   </div>
 </template>
 
 <script>
 import FloridaMap from '../components/FloridaMap.vue';
+import CallToAction from '../components/CallToAction.vue';
 import { fetchAllLocationsMetadata, fetchLocationById } from '../utils/locationsIndex.js';
 
 export default {
   name: 'SatelliteImagery',
   components: {
-    FloridaMap
+    FloridaMap,
+    CallToAction
   },
   props: {
     locationId: {
@@ -1182,6 +1183,11 @@ h2 {
   .handle-grip svg {
     width: 36px;
     height: 36px;
+  }
+
+  .before-after-slider {
+    margin: 4rem;
+    max-height: 80vh;
   }
 }
 </style>

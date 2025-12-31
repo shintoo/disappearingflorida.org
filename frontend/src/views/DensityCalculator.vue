@@ -19,7 +19,12 @@
       <main class="visualization-panel">
         <CityVisualization
           :zones="zones"
+          @update:totalAcres="totalAcres = $event"
         />
+        <div class="acres-display">
+          <div class="acres-label">Land conserved</div>
+          <div class="acres-value">{{ ((100.001 - totalAcres)*10).toFixed(1) }} acres</div>
+        </div>
       </main>
     </div>
   </div>
@@ -44,6 +49,7 @@ export default {
     const population = ref(25000);
     const landSize = ref(500);
     const patterns = ref([]);
+    const totalAcres = ref(0);
 
     // Default zone distribution - mixed development
     const zones = ref([
@@ -86,7 +92,8 @@ export default {
       population,
       landSize,
       zones,
-      calculatedResults
+      calculatedResults,
+      totalAcres
     };
   }
 };
@@ -139,6 +146,49 @@ export default {
   background: white;
   overflow: hidden;
   min-height: 350px;
+  position: relative;
+}
+
+.acres-display {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  border: 2px solid var(--color-primary);
+  z-index: 10;
+}
+
+.acres-label {
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+}
+
+.acres-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+/* Mobile adjustments */
+@media (max-width: 767px) {
+  .acres-display {
+    top: 0.5rem;
+    left: 0.5rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .acres-label {
+    font-size: 0.65rem;
+  }
+
+  .acres-value {
+    font-size: 1.25rem;
+  }
 }
 
 /* Tablet: 3D on top */
@@ -153,6 +203,10 @@ export default {
 
   .subtitle {
     font-size: 1.1rem;
+  }
+
+  .acres-value {
+    font-size: 1.75rem;
   }
 }
 

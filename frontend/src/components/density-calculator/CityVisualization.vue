@@ -21,6 +21,7 @@ import {
   createLighting,
   createControls,
   createGround,
+  createStreets,
   checkWebGLSupport
 } from '@/utils/three/sceneSetup.js';
 import { createBuilding } from '@/utils/three/buildingGenerator.js';
@@ -57,6 +58,7 @@ export default {
     let buildingsGroup = null;
     let vegetationGroup = null;
     let ground = null;
+    let streets = null;
 
     // Persistent vegetation data - generated once
     let persistentVegetationPositions = null;
@@ -96,6 +98,8 @@ export default {
       // Create ground - fixed size for visualization
       const gridSize = 80; // Fixed grid size
       ground = createGround(scene, gridSize + 20);
+
+      streets = createStreets(scene)
 
       // Create controls
       controls = createControls(camera, renderer.domElement);

@@ -21,8 +21,6 @@ export default {
 <style scoped>
 /* Call to Action Section */
 .cta-section {
-  margin-top: 5rem;
-  margin-bottom: 2rem;
   padding: 3rem 1.5rem;
   border-radius: 16px;
   text-align: center;
@@ -47,7 +45,6 @@ export default {
 @media (min-width: 768px) {
   .cta-section {
     padding: 4rem 2rem;
-    margin-top: 6rem;
   }
 
   .cta-heading {

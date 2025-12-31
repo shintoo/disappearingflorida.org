@@ -48,12 +48,19 @@ export function generateCityLayout(zones, gridSize = 80, totalUnits = 250) {
   const halfGrid = gridSize / 2;
   const allCells = [];
 
+  // Offset by half the street width (1.5 / 2 = 0.75) to avoid placing buildings on streets
+  const streetWidth = 1.5;
+  const gridOffset = streetWidth * 2;
+
   // Create a fine grid for placing buildings
   const cellSize = 1; // Base cell size
   for (let x = -halfGrid; x < halfGrid; x += cellSize) {
     for (let z = -halfGrid; z < halfGrid; z += cellSize) {
-      const distFromCenter = Math.sqrt(x * x + z * z);
-      allCells.push({ x, z, dist: distFromCenter });
+      // Apply offset in both positive and negative directions
+      const offsetX = x + (x >= 0 ? gridOffset : -gridOffset);
+      const offsetZ = z + (z >= 0 ? gridOffset : -gridOffset);
+      const distFromCenter = Math.sqrt(offsetX * offsetX + offsetZ * offsetZ);
+      allCells.push({ x: offsetX, z: offsetZ, dist: distFromCenter });
     }
   }
 

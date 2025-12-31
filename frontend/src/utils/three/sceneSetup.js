@@ -11,7 +11,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
  */
 export function createScene() {
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xffffff); // Light green-tinted sky
+  scene.background = new THREE.Color(0xffffff);
   return scene;
 }
 
@@ -131,10 +131,10 @@ export function createGround(scene, size = 100) {
 /**
  * Create street grid
  */
-export function createStreets(scene, size = 100, spacing = 15) {
+export function createStreets(scene, size = 100, spacing = 50) {
   const streetGroup = new THREE.Group();
-  const streetWidth = 1.5;
-  const streetColor = 0x444444;
+  const streetWidth = 2;
+  const streetColor = 0xeaeaea;
 
   const material = new THREE.MeshStandardMaterial({
     color: streetColor,

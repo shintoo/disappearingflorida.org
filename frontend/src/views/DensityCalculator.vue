@@ -26,9 +26,6 @@
       <main class="visualization-panel">
         <CityVisualization
           :zones="zones"
-          :landSize="landSize"
-          :population="population"
-          :peoplePerUnit="2.5"
         />
       </main>
     </div>
@@ -148,8 +145,6 @@ export default {
 
 .visualization-panel {
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   min-height: 350px;
 }

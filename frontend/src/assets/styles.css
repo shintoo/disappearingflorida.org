@@ -113,6 +113,17 @@ h1, h2 {
   border-color: white;
 }
 
+.btn.solid {
+  background: linear-gradient(45deg, var(--color-primary) 0%, var(--color-highlight) 300%);
+  border: none;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.btn.solid:hover {
+  background: linear-gradient(45deg, var(--color-primary) 0%, var(--color-highlight) 200%);
+}
+
 .card {
   padding: 1rem;
 }

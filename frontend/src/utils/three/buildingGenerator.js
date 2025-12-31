@@ -31,8 +31,8 @@ export function createBuilding(type, position, height = null) {
 
   const material = new THREE.MeshStandardMaterial({
     color: config.color,
-    roughness: 0.7,
-    metalness: 0.1
+    roughness: 1,
+    metalness: 0,
   });
 
   const mesh = new THREE.Mesh(geometry, material);

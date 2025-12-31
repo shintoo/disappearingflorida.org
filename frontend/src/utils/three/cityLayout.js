@@ -6,16 +6,14 @@
 import { buildingTypes, densityOrder } from './buildingTypes.js';
 
 /**
- * Generate city layout based on zone percentages
+ * Generate city layout based on zone percentages and total housing units
  * All buildings are placed on a rectangular grid, with denser buildings in the center
  * @param {Array} zones - Array of { type, percentage }
- * @param {number} landSize - Total land size in acres
  * @param {number} gridSize - Visual grid size (default 80)
- * @param {number} population - Total population to house (optional, if not provided uses land-based calculation)
- * @param {number} peoplePerUnit - Average people per housing unit (default 2.5)
+ * @param {number} totalUnits - Total housing units to accommodate (default 250)
  * @returns {Object} - { buildings: [{ type, position }], totalBuildings }
  */
-export function generateCityLayout(zones, landSize = 100, gridSize = 80, population = null, peoplePerUnit = 2.5) {
+export function generateCityLayout(zones, gridSize = 80, totalUnits = 250) {
   const buildings = [];
 
   // Filter out zones with 0%
@@ -29,52 +27,22 @@ export function generateCityLayout(zones, landSize = 100, gridSize = 80, populat
     return orderA - orderB;
   });
 
-  // Calculate building counts based on population if provided
-  let buildingCounts = {};
+  // Calculate building counts based on units needed for each zone
+  const buildingCounts = {};
 
-  if (population && population > 0) {
-    // Population-based calculation: calculate exact number of buildings needed for each zone
-    // Cap total buildings at 500 for performance (can represent more via scaling)
-    const MAX_TOTAL_BUILDINGS = 500;
+  activeZones.forEach(zone => {
+    const config = buildingTypes[zone.type];
+    if (!config) return;
 
-    // First pass: calculate ideal building counts
-    const idealCounts = {};
-    let totalIdealBuildings = 0;
+    // Calculate how many units this zone needs to house
+    const zoneUnits = Math.round(totalUnits * (zone.percentage / 100));
 
-    activeZones.forEach(zone => {
-      const config = buildingTypes[zone.type];
-      if (!config) return;
+    // Calculate how many buildings needed based on units per building
+    // Use Math.ceil to ensure we have enough capacity
+    const buildingsNeeded = Math.max(1, Math.ceil(zoneUnits / config.unitsPerBuilding));
 
-      // Calculate how many people this zone needs to house
-      const zonePeople = Math.round(population * (zone.percentage / 100));
-
-      // Calculate housing units needed for this zone
-      const zoneUnits = Math.ceil(zonePeople / peoplePerUnit);
-
-      // Calculate how many buildings needed based on units per building
-      const buildingsNeeded = Math.ceil(zoneUnits / config.unitsPerBuilding);
-
-      idealCounts[zone.type] = buildingsNeeded;
-      totalIdealBuildings += buildingsNeeded;
-    });
-
-    // Scale down if needed to stay within performance limits
-    if (totalIdealBuildings > MAX_TOTAL_BUILDINGS) {
-      const scaleFactor = MAX_TOTAL_BUILDINGS / totalIdealBuildings;
-      activeZones.forEach(zone => {
-        buildingCounts[zone.type] = Math.max(1, Math.round(idealCounts[zone.type] * scaleFactor));
-      });
-    } else {
-      buildingCounts = idealCounts;
-    }
-  } else {
-    // Original land-based calculation: Scale based on land size
-    const baseBuildingCount = Math.min(300, Math.sqrt(landSize) * 15);
-
-    activeZones.forEach(zone => {
-      buildingCounts[zone.type] = Math.round(baseBuildingCount * (zone.percentage / 100));
-    });
-  }
+    buildingCounts[zone.type] = buildingsNeeded;
+  });
 
   // Generate all grid cells, sorted by distance from center
   const halfGrid = gridSize / 2;

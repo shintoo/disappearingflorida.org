@@ -11,7 +11,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
  */
 export function createScene() {
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xe8f4e8); // Light green-tinted sky
+  scene.background = new THREE.Color(0xffffff); // Light green-tinted sky
   return scene;
 }
 
@@ -110,7 +110,15 @@ export function createGround(scene, size = 100) {
     roughness: 0.9,
     metalness: 0.0
   });
-
+/*
+    const geometry = new RoundedBoxGeometry(
+      size,
+      6,
+      size,
+      4, // segments
+      4
+    );
+*/
   const ground = new THREE.Mesh(geometry, material);
   ground.rotation.x = -Math.PI / 2;
   ground.position.y = 0;

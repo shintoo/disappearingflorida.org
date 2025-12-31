@@ -11,10 +11,10 @@ export const buildingTypes = {
     heightRange: [12, 20],     // Units (visual height)
     footprint: { width: 5, depth: 5 },
     cornerRadius: 0.4,
-    hasWindows: true,
+    hasWindows: false,
     spacing: 5.5,                // Gap between buildings
     densityPerAcre: 120,
-    unitsPerBuilding: 600      // Approximate housing units per building
+    unitsPerBuilding: 125      // Housing units per building (tuned for visualization)
   },
   'mixed-use-midrise': {
     id: 'mixed-use-midrise',
@@ -23,10 +23,10 @@ export const buildingTypes = {
     heightRange: [5, 8],
     footprint: { width: 4, depth: 4 },
     cornerRadius: 0.3,
-    hasWindows: true,
+    hasWindows: false,
     spacing: 4,
     densityPerAcre: 45,
-    unitsPerBuilding: 80       // Approximate housing units per building
+    unitsPerBuilding: 25       // Housing units per building (tuned for visualization)
   },
   'townhomes': {
     id: 'townhomes',
@@ -39,14 +39,14 @@ export const buildingTypes = {
     spacing: 1,              // Attached, minimal gap
     rowBased: true,
     densityPerAcre: 8,
-    unitsPerBuilding: 4        // Row of 4 attached units
+    unitsPerBuilding: 5        // Row of attached units (tuned for visualization)
   },
   'suburban-sprawl': {
     id: 'suburban-sprawl',
     name: 'Single-Family',
     color: 0xf5f5dc,           // Beige/cream
-    heightRange: [2, 2.5],
-    footprint: { width: 3, depth: 3 },
+    heightRange: [1.5, 2],
+    footprint: { width: 2, depth: 1.5 },
     cornerRadius: 0.15,
     hasWindows: false,
     spacing: 5,                // Large yards

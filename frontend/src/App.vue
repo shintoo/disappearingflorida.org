@@ -270,13 +270,6 @@ body {
   opacity: 1.0;
 }
 
-.take-action {
-  background: var(--color--highlight);
-  color: black;
-  padding: 0 .65rem;
-  border-radius: 16px;
-}
-
 /* Tablet breakpoint - show horizontal menu */
 @media (min-width: 768px) {
   .site-title a {

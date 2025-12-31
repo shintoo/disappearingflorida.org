@@ -1,12 +1,5 @@
 <template>
   <div class="density-calculator-page">
-    <header class="page-header">
-      <h1>Density Calculator</h1>
-      <p class="subtitle">
-        Explore how different development patterns affect land use, housing capacity, and environmental impact.
-      </p>
-    </header>
-
     <div class="calculator-layout">
       <aside class="controls-panel">
         <div class="panel-content">
@@ -15,11 +8,11 @@
             v-model:population="population"
             v-model:zones="zones"
           />
-
+          <!--
           <DensityResults
             :results="calculatedResults"
             :landSize="landSize"
-          />
+          />-->
         </div>
       </aside>
 
@@ -135,7 +128,6 @@ export default {
 .controls-panel {
   background: white;
   border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   overflow: hidden;
 }
 

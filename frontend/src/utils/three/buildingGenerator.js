@@ -9,16 +9,33 @@ import { buildingTypes } from './buildingTypes.js';
 
 /**
  * Create a single building mesh
+ * @param {string} type - Building type (e.g., 'high-rise-urban')
+ * @param {Object} position - {x, z} position
+ * @param {number|null} height - Explicit height override
+ * @param {number|null} units - Number of housing units in this building
  */
-export function createBuilding(type, position, height = null) {
+export function createBuilding(type, position, height = null, units = null) {
   const config = buildingTypes[type];
   if (!config) {
     console.warn(`Unknown building type: ${type}`);
     return null;
   }
 
-  // Randomize height within range if not specified
-  const buildingHeight = height ?? randomInRange(config.heightRange[0], config.heightRange[1]);
+  // Calculate height based on units for high-rise buildings
+  let buildingHeight;
+  if (height !== null) {
+    // Explicit height override
+    buildingHeight = height;
+  } else if (units !== null && config.unitsPerBuilding > 0) {
+    // Calculate proportional height based on units
+    // Scale height proportionally: if building has full capacity, use max height
+    const unitRatio = units / config.unitsPerBuilding;
+    const heightRange = config.heightRange[1] - config.heightRange[0];
+    buildingHeight = config.heightRange[0] + (heightRange * unitRatio);
+  } else {
+    // Randomize height within range if not specified
+    buildingHeight = randomInRange(config.heightRange[0], config.heightRange[1]);
+  }
 
   // Create rounded box geometry
   const geometry = new RoundedBoxGeometry(
@@ -51,6 +68,13 @@ export function createBuilding(type, position, height = null) {
   // Add windows for high-rise and midrise
   if (config.hasWindows) {
     addWindows(mesh, buildingHeight, config);
+  }
+
+  // Add gabled roof for single-family homes
+  if (type === 'suburban-sprawl') {
+    const roof = createGabledRoof(config, buildingHeight);
+    mesh.add(roof);
+    mesh.userData.roof = roof;
   }
 
   return mesh;
@@ -132,13 +156,61 @@ function createWindowPane(width, height, depth, material) {
 }
 
 /**
+ * Create a gabled roof for single-family homes
+ */
+function createGabledRoof(config, buildingHeight) {
+  const roofHeight = 0.8; // Height of the roof peak
+  const roofOverhang = 0.15; // Extend roof slightly beyond building edges
+
+  // Create triangular shape for gabled roof
+  const roofShape = new THREE.Shape();
+  const width = config.footprint.depth + roofOverhang * 2;
+  const depth = config.footprint.width + roofOverhang * 2;
+
+  // Triangle profile (looking from the side)
+  roofShape.moveTo(-width / 2, 0);
+  roofShape.lineTo(0, roofHeight);
+  roofShape.lineTo(width / 2, 0);
+  roofShape.lineTo(-width / 2, 0);
+
+  // Extrude the triangle along the depth of the building
+  const extrudeSettings = {
+    depth: depth,
+    bevelEnabled: false
+  };
+
+  const roofGeometry = new THREE.ExtrudeGeometry(roofShape, extrudeSettings);
+
+  // Reddish-brown roof material
+  const roofMaterial = new THREE.MeshStandardMaterial({
+    color: 0x8B4513, // Saddle brown
+    roughness: 0.9,
+    metalness: 0,
+  });
+
+  const roofMesh = new THREE.Mesh(roofGeometry, roofMaterial);
+
+  // Position roof at top of building
+  // Rotate to align properly and center it
+  roofMesh.rotation.y = Math.PI / 2; // Rotate to horizontal
+  roofMesh.position.set(-depth / 2, buildingHeight / 2, 0);
+
+  roofMesh.castShadow = true;
+  roofMesh.receiveShadow = true;
+
+  return roofMesh;
+}
+
+/**
  * Create a group of buildings for a zone
+ * @param {string} type - Building type
+ * @param {Array} positions - Array of position objects with optional units property
  */
 export function createBuildingCluster(type, positions) {
   const group = new THREE.Group();
 
   positions.forEach(pos => {
-    const building = createBuilding(type, pos);
+    const building = createBuilding(type, pos, null, pos.units);
     if (building) {
       group.add(building);
     }

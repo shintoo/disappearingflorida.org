@@ -74,6 +74,26 @@ export function generateCityLayout(zones, gridSize = 80, totalUnits = 250) {
 
     if (zoneBuildings === 0) return;
 
+    // Calculate how many units this zone needs to house
+    const zoneUnits = Math.round(totalUnits * (zone.percentage / 100));
+
+    // Distribute units sequentially: fill buildings to max capacity before moving to next
+    const maxUnitsPerBuilding = config.unitsPerBuilding;
+    let remainingUnits = zoneUnits;
+    const buildingUnitCounts = [];
+
+    for (let i = 0; i < zoneBuildings; i++) {
+      if (remainingUnits >= maxUnitsPerBuilding) {
+        // Fill this building to capacity
+        buildingUnitCounts.push(maxUnitsPerBuilding);
+        remainingUnits -= maxUnitsPerBuilding;
+      } else {
+        // Last building gets remaining units
+        buildingUnitCounts.push(remainingUnits);
+        remainingUnits = 0;
+      }
+    }
+
     // Reduce spacing to make buildings closer - use 40% of original spacing
     const spacing = config.spacing * 0.4;
 
@@ -91,10 +111,11 @@ export function generateCityLayout(zones, gridSize = 80, totalUnits = 250) {
         // Mark cells as occupied
         markCellsOccupied(occupiedCells, cell.x, cell.z, cellsPerBuilding, cellSize);
 
-        // Place building at grid position
+        // Place building at grid position with sequential unit count
         buildings.push({
           type: zone.type,
-          position: { x: cell.x, z: cell.z }
+          position: { x: cell.x, z: cell.z },
+          units: buildingUnitCounts[placedCount]
         });
 
         placedCount++;

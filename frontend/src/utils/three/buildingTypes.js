@@ -36,7 +36,7 @@ export const buildingTypes = {
     footprint: { width: 2, depth: 4 },
     cornerRadius: 0.2,
     hasWindows: false,
-    spacing: 1,              // Attached, minimal gap
+    spacing: 3,              // Attached, minimal gap
     rowBased: true,
     densityPerAcre: 8,
     unitsPerBuilding: 5        // Row of attached units (tuned for visualization)
@@ -45,9 +45,9 @@ export const buildingTypes = {
     id: 'suburban-sprawl',
     name: 'Single-Family',
     color: 0xf5f5dc,           // Beige/cream
-    heightRange: [1.5, 2],
-    footprint: { width: 2, depth: 1.5 },
-    cornerRadius: 0.15,
+    heightRange: [1, 1.75],
+    footprint: { width: 1.5, depth: 1.5 },
+    cornerRadius: 0.0,
     hasWindows: false,
     spacing: 5,                // Large yards
     yardColor: 0x7cb342,       // Green yards

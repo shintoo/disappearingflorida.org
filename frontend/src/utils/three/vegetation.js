@@ -145,7 +145,7 @@ export function createInstancedTrees(positions, scales) {
  * @param {number} maxTrees - Maximum number of trees to generate
  * @returns {Array} Array of {x, z, scale} for tree positions
  */
-export function generateVegetationPositions(occupiedPositions, gridSize = 80, density = 0.3, maxTrees = 200) {
+export function generateVegetationPositions(occupiedPositions, gridSize = 100, density = 0.3, maxTrees = 200) {
   const positions = [];
   const scales = [];
   const halfGrid = gridSize / 2;
@@ -159,8 +159,8 @@ export function generateVegetationPositions(occupiedPositions, gridSize = 80, de
     const cellZ = Math.floor(pos.z / cellSize);
 
     // Mark surrounding cells as occupied (larger radius for building clearance)
-    for (let dx = -3; dx <= 3; dx++) {
-      for (let dz = -3; dz <= 3; dz++) {
+    for (let dx = -1; dx <= 1; dx++) {
+      for (let dz = -1; dz <= 1; dz++) {
         occupiedSet.add(`${cellX + dx},${cellZ + dz}`);
       }
     }
@@ -168,7 +168,7 @@ export function generateVegetationPositions(occupiedPositions, gridSize = 80, de
 
   // Generate tree positions using Poisson-disc-like sampling for natural distribution
   const minDistance = 2; // Minimum distance between trees
-  const maxAttempts = 30; // Attempts per tree to find valid position
+  const maxAttempts = 20; // Attempts per tree to find valid position
 
   let attempts = 0;
   while (positions.length < maxTrees && attempts < maxTrees * maxAttempts) {
@@ -219,7 +219,7 @@ export function generateVegetationPositions(occupiedPositions, gridSize = 80, de
  * @param {boolean} useLowDetail - Use lower detail for performance
  * @returns {THREE.Group} Group containing all vegetation
  */
-export function createVegetationLayer(buildingPositions = [], gridSize = 80, useLowDetail = false) {
+export function createVegetationLayer(buildingPositions = [], gridSize = 100, useLowDetail = false) {
   const group = new THREE.Group();
 
   // Reduce tree count on mobile

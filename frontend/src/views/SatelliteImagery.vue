@@ -345,7 +345,7 @@ export default {
         } else {
           this.stopPlayback();
         }
-      }, 500);
+      }, this.location.time_points.length > 5 ? 200 : 500);
       // Start auto-hide timer when playback starts
       this.startHideControlsTimer();
     },

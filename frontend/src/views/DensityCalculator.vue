@@ -1,5 +1,12 @@
 <template>
   <div class="density-calculator-page">
+    <div class="page-header">
+      <h1>Widespread development destroys Florida land. What do we do?</h1>
+      <div>In 2024, Florida saw <b>over 110,000 single-family homes</b> approved for development, the second highest for any state in the US, second only to Texas.
+        How do we protect Florida's lands while still meeting the housing needs of Florida residents?</div>
+      <h1 style="text-decoration: underline">Build smarter.</h1>
+      <div>By designing our communities to make more efficient use of land, we can encourage healthier lifestyles, reduce pollution and noise, and keep Florida lands protected.</div>
+    </div>
     <div class="calculator-layout">
       <aside class="controls-panel">
         <div class="panel-content">
@@ -109,13 +116,26 @@ export default {
   padding-bottom: 2rem;
 }
 
-.page-header {
+.page-header { 
   text-align: center;
-  margin-bottom: 2rem;
+  margin: 5rem 0 0 0; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .page-header h1 {
+  font-family: 'Cormorant Garamond', serif;
   margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+}
+
+.page-header div {
+  padding: 16px;
+  text-align: left;
+  margin: 2rem 0 2rem 0;
+  background: var(--color-background-alt);
+  border-radius: 10px;
 }
 
 .subtitle {
@@ -229,14 +249,18 @@ export default {
     flex: 1;
     min-height: 600px;
   }
-
-  .page-header {
-    margin-bottom: 2.5rem;
-  }
 }
 
 /* Large desktop */
 @media (min-width: 1200px) {
+  .page-header h1 {
+      font-size: 3rem;
+   }
+
+  .page-header div {
+     max-width: 50%;
+  }
+
   .controls-panel {
     flex: 0 0 420px;
   }

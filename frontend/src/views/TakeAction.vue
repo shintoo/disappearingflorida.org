@@ -12,6 +12,29 @@
       <div class="organization-card">
         <div class="org-image-description">
           <div class="org-image">
+            <img src="/images/orgs/1000fof.jpg" />
+          </div>
+          <div>
+            <div class="org-header">
+              <h3 class="org-name">1000 Friends of Florida</h3>
+            </div>
+            <div class="org-description">
+              <p>
+                1000 Friends of Florida focuses on both sides of the problem: ensuring that development and growth in the state of Florida is done in a sustainable way,
+                with smarter, more livable communities, as well as fighting for the conservation and restoration of wild land. 1000 Friends of Florida promotes sustainable
+                community design, contributes to restoration studies, and litigates against unjust practices in our state legislature.
+              </p>
+            </div>
+          </div>
+        </div>
+        <a href="https://1000fof.org/about" target="_blank" rel="noopener noreferrer" class="btn solid">Visit 1000fof.org</a>
+      </div>
+
+
+
+      <div class="organization-card">
+        <div class="org-image-description">
+          <div class="org-image">
             <img src="/images/orgs/nflt.jpg" />
             <span class="attr">Trish Hartmann</span>
           </div>

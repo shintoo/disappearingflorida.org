@@ -96,8 +96,8 @@ export default {
       createLighting(scene, isMobile.value);
 
       // Create ground - fixed size for visualization
-      const gridSize = 80; // Fixed grid size
-      ground = createGround(scene, gridSize + 20);
+      const gridSize = 95; // Fixed grid size
+      ground = createGround(scene, gridSize);
 
       streets = createStreets(scene)
 
@@ -203,8 +203,8 @@ export default {
 
       // Generate vegetation positions only once (on first call)
       if (!persistentVegetationPositions) {
-        const maxTrees = isMobile.value ? 100 : 200;
-        const density = isMobile.value ? 0.2 : 0.3;
+        const maxTrees = isMobile.value ? 300 : 900;
+        const density = isMobile.value ? 0.2 : 0.5;
 
         // Generate with no buildings initially (full vegetation coverage)
         const { positions, scales } = generateVegetationPositions(

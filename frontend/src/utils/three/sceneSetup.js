@@ -110,15 +110,7 @@ export function createGround(scene, size = 100) {
     roughness: 0.9,
     metalness: 0.0
   });
-/*
-    const geometry = new RoundedBoxGeometry(
-      size,
-      6,
-      size,
-      4, // segments
-      4
-    );
-*/
+
   const ground = new THREE.Mesh(geometry, material);
   ground.rotation.x = -Math.PI / 2;
   ground.position.y = 0;

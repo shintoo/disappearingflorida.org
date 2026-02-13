@@ -1,7 +1,10 @@
 <template>
   <div class="density-input-panel">
     <div class="intro-text">
-      <p>Adjust the sliders to see how mixing housing types affects land consumption.</p>
+      <p>
+        Below, you can control how many homes of each housing type are constructed in a new community. Adjust
+        with the sliders to see how a community's design can significantly impact the amount of land destroyed.
+      </p>
     </div>
 
     <ZoneSliders

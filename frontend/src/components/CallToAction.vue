@@ -6,7 +6,7 @@
         Habitat destruction doesn't have to be inevitable. Learn how policy changes and smart development can protect Florida's remaining ecosystems.
       </p>
       <router-link to="/take-action" class="btn solid">
-        <b>Take Action</b>
+        Take Action
       </router-link>
     </div>
   </div>

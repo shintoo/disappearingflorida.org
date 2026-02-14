@@ -17,13 +17,19 @@
     </section>
 
     <section class="content-section">
+      <div class="introduction">
+        <h2>Florida's lands are being erased by housing development.</h2>
+        <div>
+          Every year, more and more of Florida is destroyed for the construction of sprawling suburban neighborhoods. With smarter development,
+          we can save Florida's land, and create better homes for both wildlife <strong>and</strong> residents of Florida.
+        </div>
+      </div>
       <div class="tools-preview">
-        <h2 class="text-center mb-2">Interactive Tools</h2>
         <div class="tools-grid">
           <div class="tool-card">
             <h3>Satellite Timelapse</h3>
-            <p>See decades of habitat transformation in Florida's most affected areas</p>
-            <router-link to="/satellite-imagery" class="btn">Explore</router-link>
+            <p>Witness loss of wild spaces to habitat throughout Florida over the years</p>
+            <router-link to="/satellite-imagery" class="btn solid">Explore</router-link>
           </div>
           <!--<div class="tool-card">
             <h3>Species Impact</h3>
@@ -32,8 +38,8 @@
           </div>-->
           <div class="tool-card">
             <h3>Build Better</h3>
-            <p>Compare land use between sprawl and smarter development</p>
-            <router-link to="/density-calculator" class="btn">Simulate</router-link>
+            <p>See how smarter development can create better communities and save our land</p>
+            <router-link to="/density-calculator" class="btn solid">Simulate</router-link>
           </div>
         </div>
       </div>
@@ -205,11 +211,25 @@ export default {
   }
 }
 
+h2 {
+  font-size: 2rem;
+}
+
 /* Content section with standard padding */
 .content-section {
   max-width: 1200px;
   margin: 0 auto;
   padding: 3rem 1rem;
+}
+
+.introduction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.introduction div {
+  margin: 2rem 0 2rem 0;
 }
 
 /* Tablet and up */

@@ -133,9 +133,7 @@ export default {
 .page-header div {
   padding: 16px;
   text-align: left;
-  margin: 2rem 0 2rem 0;
-  background: var(--color-background-alt);
-  border-radius: 10px;
+  margin: 4rem 0 4rem 0;
 }
 
 .subtitle {

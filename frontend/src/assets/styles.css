@@ -114,14 +114,18 @@ h1, h2 {
 }
 
 .btn.solid {
-  background: linear-gradient(45deg, var(--color-primary) 0%, var(--color-highlight) 300%);
+  /*background: linear-gradient(45deg, var(--color-primary) 0%, var(--color-highlight) 300%);*/
+  background: #cddbb5;
   border: none;
-  color: white;
+  color: #1a5928;
+  font-weight: bold;
   transition: all 0.2s ease;
+  border: 2px solid #0000;
 }
 
 .btn.solid:hover {
-  background: linear-gradient(45deg, var(--color-primary) 0%, var(--color-highlight) 200%);
+  #background: linear-gradient(45deg, var(--color-primary) 0%, var(--color-highlight) 200%);
+  border: 2px solid #1a5928;
 }
 
 .card {

@@ -119,6 +119,7 @@
       <!-- Impacted Species Highlight -->
       <div class="impacted-species">
         <h1>Who lived here?</h1>
+        <div class="description">These species had documented presence in this area.</div>
         <div class="species-features">
           <div v-for="species in this.impactedSpecies" class="species-feature">
             <img :src="species.image_url" />
@@ -807,6 +808,12 @@ h2 {
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  background: var(--color-background-alt);
+  padding: 16px;
+  border-radius: 16px;
+}
+
+.impacted-species .description {
 }
 
 .species-features {
